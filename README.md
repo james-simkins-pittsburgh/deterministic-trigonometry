@@ -13,5 +13,5 @@
 
  This library will be useful to someone making a simulation in which a small loss of precision is worth having
  exactly reproducible results across different architectures. For now, it will support sine, cosine, tangent,
- arcsine, arcosine, and arctanget.
+ arcsine, arccosine, and arctangent.
  
