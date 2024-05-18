@@ -17,4 +17,7 @@ pub struct DTrig {
 // This module contains the code that sets the values for the struct.
 pub mod initialize;
 
+// This module contains utility functions.
+pub mod utility;
+
 
