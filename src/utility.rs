@@ -1,6 +1,29 @@
+// Outputs the nearest integer fraction out of 1000 to the argument fraction.
+pub fn denominator_to_1000(argument_fraction: (i32, i32)) -> i64 {
+    // No need to do anything if input is already out of 1000.
+    if  argument_fraction.1 == 1000 {
+        return i64::from(argument_fraction.0);
+    } else {
+        // Handles other denominators with appropriate rounding to nearest thousandth.
+        if argument_fraction.1 % 2 == 0 {
+            if (argument_fraction.0 * 1000) % argument_fraction.1 >= argument_fraction.1 / 2 {
+                return i64::from((argument_fraction.0 * 1000) / argument_fraction.1 + 1);
+            } else {
+                return i64::from((argument_fraction.0 * 1000) / argument_fraction.1);
+            }
+        } else {
+            if (argument_fraction.0 * 1000) % argument_fraction.1 > argument_fraction.1 / 2 {
+                return i64::from((argument_fraction.0 * 1000) / argument_fraction.1 + 1);
+            } else {
+                return i64::from((argument_fraction.0 * 1000) / argument_fraction.1);
+            }
+        }
+    }
+}
+
 // Normalizes angles and converts to usize.
 
-pub fn normalize_angle(angle: i64) -> usize {
+pub fn normalize_angle(angle: i64) -> i64 {
     let mut return_angle = angle;
 
     // Handles the case in which the angle is greater than 2 * pi radians.
@@ -45,27 +68,5 @@ pub fn normalize_angle(angle: i64) -> usize {
     }
 
     // Returns angle as usize so it can be used as an index for the arrays.
-    return return_angle as usize;
-}
-
-// Outputs the nearest integer fraction out of 1000 to the argument fraction.
-pub fn denominator_to_1000(argument_fraction: (i32, i32)) -> i64 {
-    // No need to do anything if input is already out of 1000.
-    if  argument_fraction.1 == 1000 {
-        return i64::from(argument_fraction.0);
-    } else {
-        if argument_fraction.1 % 2 == 0 {
-            if (argument_fraction.0 * 1000) % argument_fraction.1 >= argument_fraction.1 / 2 {
-                return i64::from((argument_fraction.0 * 1000) / argument_fraction.1 + 1);
-            } else {
-                return i64::from((argument_fraction.0 * 1000) / argument_fraction.1);
-            }
-        } else {
-            if (argument_fraction.0 * 1000) % argument_fraction.1 > argument_fraction.1 / 2 {
-                return i64::from((argument_fraction.0 * 1000) / argument_fraction.1 + 1);
-            } else {
-                return i64::from((argument_fraction.0 * 1000) / argument_fraction.1);
-            }
-        }
-    }
+    return return_angle;
 }
