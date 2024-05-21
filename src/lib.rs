@@ -26,7 +26,11 @@ impl DTrig {
         return (
             i32::from(
                 self.sine_array
-                    [utility::normalize_angle(utility::denominator_to_1000(argument_fraction)) as usize]
+                    [
+                        utility::normalize_angle(
+                            utility::denominator_to_1000(argument_fraction)
+                        ) as usize
+                    ]
             ),
             1000,
         );
@@ -36,7 +40,11 @@ impl DTrig {
         return (
             i32::from(
                 self.cosine_array
-                    [utility::normalize_angle(utility::denominator_to_1000(argument_fraction)) as usize]
+                    [
+                        utility::normalize_angle(
+                            utility::denominator_to_1000(argument_fraction)
+                        ) as usize
+                    ]
             ),
             1000,
         );
@@ -45,7 +53,11 @@ impl DTrig {
     pub fn tangent(&self, argument_fraction: (i32, i32)) -> (i32, i32) {
         return (
             self.tangent_array
-                [utility::normalize_angle(utility::denominator_to_1000(argument_fraction)) as usize],
+                [
+                    utility::normalize_angle(
+                        utility::denominator_to_1000(argument_fraction)
+                    ) as usize
+                ],
             1000,
         );
     }
@@ -89,7 +101,6 @@ impl DTrig {
         // Converts the numerator to what it would be out of 1000.
         let numerator_out_of_1000 = utility::denominator_to_1000(argument_fraction);
 
-        
         if numerator_out_of_1000 >= -4000 && numerator_out_of_1000 <= 4000 {
             // Handles from -4 to 4.
             return (
@@ -145,7 +156,6 @@ impl DTrig {
                     1000,
                 );
             }
-
         } else {
             // Handles lower than -1000 and higher than 1000.
             if numerator_out_of_1000 < -1000000 && numerator_out_of_1000 > -3374653 {
