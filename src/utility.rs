@@ -1,5 +1,9 @@
 // Outputs the nearest integer fraction out of 1000 to the argument fraction.
-pub fn denominator_to_1000(argument_fraction: (i32, i32)) -> i64 {
+pub fn denominator_to_1000(argument_fraction_i32: (i32, i32)) -> i64 {
+    let argument_fraction = (
+        i64::from(argument_fraction_i32.0),
+        i64::from(argument_fraction_i32.1),
+    );
     // No need to do anything if input is already out of 1000.
     if argument_fraction.1 == 1000 {
         return i64::from(argument_fraction.0);
@@ -11,12 +15,12 @@ pub fn denominator_to_1000(argument_fraction: (i32, i32)) -> i64 {
                 (argument_fraction.1 / 2).abs()
             {
                 if argument_fraction.0 * argument_fraction.1 >= 0 {
-                    return i64::from((argument_fraction.0 * 1000) / argument_fraction.1 + 1);
+                    return (argument_fraction.0 * 1000) / argument_fraction.1 + 1;
                 } else {
-                    return i64::from((argument_fraction.0 * 1000) / argument_fraction.1 - 1);
+                    return (argument_fraction.0 * 1000) / argument_fraction.1 - 1;
                 }
             } else {
-                return i64::from((argument_fraction.0 * 1000) / argument_fraction.1);
+                return (argument_fraction.0 * 1000) / argument_fraction.1;
             }
         } else {
             if
@@ -24,14 +28,12 @@ pub fn denominator_to_1000(argument_fraction: (i32, i32)) -> i64 {
                 (argument_fraction.1 / 2).abs()
             {
                 if argument_fraction.0 * argument_fraction.1 >= 0 {
-                    return i64::from((argument_fraction.0 * 1000) / argument_fraction.1 + 1);
-                    
+                    return (argument_fraction.0 * 1000) / argument_fraction.1 + 1;
                 } else {
-                    return i64::from((argument_fraction.0 * 1000) / argument_fraction.1 - 1);
-                    
+                    return (argument_fraction.0 * 1000) / argument_fraction.1 - 1;
                 }
             } else {
-                return i64::from((argument_fraction.0 * 1000) / argument_fraction.1);
+                return (argument_fraction.0 * 1000) / argument_fraction.1;
             }
         }
     }
@@ -96,15 +98,27 @@ mod tests {
         test_equal((8.0, 1000.0), (8, 1000));
         test_equal((17.0, 1000.0), (17, 1000));
         test_equal((3.0, 7.0), (3, 7));
-        // test_equal((i32::MAX as f64,1.0), (i32::MAX, 1)); // Right now this fails
-        // test_equal((i32::MIN as f64,1.0), (i32::MIN, 1)); // Right now this fails
+        test_equal((i32::MAX as f64, 1.0), (i32::MAX, 1));
+        test_equal((i32::MIN as f64, 1.0), (i32::MIN, 1));
         test_equal((-4.0, 1000.0), (-4, 1000));
         test_equal((-19.0, 1000.0), (-19, 1000));
         test_equal((-3.0, 11.0), (-3, 11));
+        test_equal((17.0, -11.0), (17, -11));
+
+        for a in -10000..10001 {
+            for b in -10000..0 {
+                test_equal((a as f64, b as f64), (a, b));
+            }
+        }
+
+        for a in -10000..10001 {
+            for b in 1..10001 {
+                test_equal((a as f64, b as f64), (a, b));
+            }
+        }
     }
 
     fn test_equal(float_fraction: (f64, f64), integer_fraction: (i32, i32)) {
-        
         // let a = ((float_fraction.0 / float_fraction.1) * 1000.0).round() as i64;
         // let b = denominator_to_1000(integer_fraction);
         // println!("{} {}",a ,b);
