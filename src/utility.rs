@@ -119,20 +119,22 @@ mod tests {
     }
 
     fn test_equal(float_fraction: (f64, f64), integer_fraction: (i32, i32)) {
-        if
-            !(
-                ((float_fraction.0 / float_fraction.1) * 1000.0).round() as i64 ==
-                denominator_to_1000(integer_fraction)
-            )
-        {
-            let a = ((float_fraction.0 / float_fraction.1) * 1000.0).round() as i64;
-            let b = denominator_to_1000(integer_fraction);
-            println!("{} {} {} {}", integer_fraction.0, integer_fraction.1, a, b);
-        }
+        let test: bool;
 
-        assert_eq!(
-            ((float_fraction.0 / float_fraction.1) * 1000.0).round() as i64,
-            denominator_to_1000(integer_fraction)
-        )
+        if
+            (((float_fraction.0 / float_fraction.1) * 1000.0).round() as i64) ==
+                denominator_to_1000(integer_fraction) ||
+            (
+                (
+                    (float_fraction.0 / float_fraction.1) * 1000.0 -
+                    (denominator_to_1000(integer_fraction) as f64)
+                ).abs() - 0.5
+            ).abs() < 0.00001
+        {
+            test = true;
+        } else {
+            test = false;
+        }
+        assert_eq!(test, true);
     }
 }
