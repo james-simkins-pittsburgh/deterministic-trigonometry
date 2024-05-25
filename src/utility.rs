@@ -39,12 +39,12 @@ pub fn denominator_to_1000(argument_fraction_i32: (i32, i32)) -> i64 {
     }
 }
 
-// Normalizes angles to 0 to 6282 radians
+// Normalizes angles to 0 to 6282 thousandth radians
 
 pub fn normalize_angle(angle: i64) -> i64 {
     let mut return_angle = angle;
 
-    // Handles the case in which the angle is greater than or equal to 2 * pi radians.
+    // Handles the case in which the angle is greater than or equal to 2 * pi thousandth radians.
     if return_angle > 0 && return_angle > 6282 {
         // Multiplied by 1000000 to allow more precision.
         let mut angle_times_a_million = i128::from(return_angle * 1000000);
@@ -58,7 +58,7 @@ pub fn normalize_angle(angle: i64) -> i64 {
         } else {
             return_angle = (angle_times_a_million / 1000000) as i64;
         }
-        // Handles the case in which the angle is less than 2 pi radians.
+        // Handles the case in which the angle is less than 2 pi thousandth radians.
     } else if return_angle < 0 {
         //Handles cases in which the angle is less than 2 pi radians.
         if return_angle < -6282 {
@@ -85,7 +85,7 @@ pub fn normalize_angle(angle: i64) -> i64 {
         }
     }
 
-    // Returns angle
+    // Returns angle in thousanth angles.
     return return_angle;
 }
 
@@ -95,30 +95,30 @@ mod tests {
 
     #[test]
     fn test_denominator_to_1000() {
-        test_equal((8.0, 1000.0), (8, 1000));
-        test_equal((17.0, 1000.0), (17, 1000));
-        test_equal((3.0, 7.0), (3, 7));
-        test_equal((i32::MAX as f64, 1.0), (i32::MAX, 1));
-        test_equal((i32::MIN as f64, 1.0), (i32::MIN, 1));
-        test_equal((-4.0, 1000.0), (-4, 1000));
-        test_equal((-19.0, 1000.0), (-19, 1000));
-        test_equal((-3.0, 11.0), (-3, 11));
-        test_equal((17.0, -11.0), (17, -11));
+        test_equal_fraction((8.0, 1000.0), (8, 1000));
+        test_equal_fraction((17.0, 1000.0), (17, 1000));
+        test_equal_fraction((3.0, 7.0), (3, 7));
+        test_equal_fraction((i32::MAX as f64, 1.0), (i32::MAX, 1));
+        test_equal_fraction((i32::MIN as f64, 1.0), (i32::MIN, 1));
+        test_equal_fraction((-4.0, 1000.0), (-4, 1000));
+        test_equal_fraction((-19.0, 1000.0), (-19, 1000));
+        test_equal_fraction((-3.0, 11.0), (-3, 11));
+        test_equal_fraction((17.0, -11.0), (17, -11));
 
         for a in -10000..10001 {
             for b in -10000..0 {
-                test_equal((a as f64, b as f64), (a, b));
+                test_equal_fraction((a as f64, b as f64), (a, b));
             }
         }
 
         for a in -10000..10001 {
             for b in 1..10001 {
-                test_equal((a as f64, b as f64), (a, b));
+                test_equal_fraction((a as f64, b as f64), (a, b));
             }
         }
     }
 
-    fn test_equal(float_fraction: (f64, f64), integer_fraction: (i32, i32)) {
+    fn test_equal_fraction(float_fraction: (f64, f64), integer_fraction: (i32, i32)) {
         let test: bool;
 
         if
@@ -134,6 +134,46 @@ mod tests {
             test = true;
         } else {
             test = false;
+        }
+        assert_eq!(test, true);
+    }
+
+    #[test]
+    fn test_normalize_angle() {
+
+        for a in -7000..7000 {
+            for b in -7000..7001 as i64 {
+                test_equal_angle(
+                    normalize_angle(a * 1000000),
+                    angle_normalizer((b * 1000000) as f64)
+                );
+            }
+        }
+    }
+
+    fn angle_normalizer(thousandth_angle: f64) -> f64 {
+        let mut angle = thousandth_angle / 1000.0;
+        angle = angle.sin().asin();
+        if angle < 0.0 {
+            angle = angle + std::f64::consts::PI * 2.0;
+        }
+
+        return angle * 1000.0;
+    }
+
+    fn test_equal_angle(thousandth_integer_angle: i64, thousandth_float_angle: f64) {
+        let test: bool;
+
+        if
+            (thousandth_float_angle.round() as i64) == thousandth_integer_angle ||
+            ((thousandth_float_angle - (thousandth_integer_angle as f64)).abs() - 0.5).abs() <
+                0.00001
+        {
+            test = true;
+        } else {
+            test = false;
+            print!("{} {}", thousandth_integer_angle, thousandth_float_angle);
+            print!("");
         }
         assert_eq!(test, true);
     }
