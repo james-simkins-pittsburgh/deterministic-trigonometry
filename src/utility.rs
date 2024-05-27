@@ -41,16 +41,16 @@ pub fn denominator_to_1000(argument_fraction_i32: (i32, i32)) -> i64 {
 
 // Normalizes angles to 0 to 6282 thousandth radians
 
-pub fn normalize_angle(angle: i64) -> i64 {
-    let mut return_angle = angle;
+pub fn normalize_angle(thousandth_angle: i64) -> i64 {
+    let mut return_angle = thousandth_angle;
 
-    // Handles the case in which the angle is greater than or equal to 2 * pi thousandth radians.
+    // Handles the case in which the angle is greater than or equal to 2 pi radians.
     if return_angle > 6282 {
         // Multiplied by 1000000 to allow more precision.
-        let mut angle_times_a_billion = i128::from(return_angle * 1000000000);
+        let mut angle_times_a_billion = i128::from(return_angle) * 1000000000;
 
         // Normalizes angle
-        angle_times_a_billion = angle_times_a_billion % 6283185307;
+        angle_times_a_billion = angle_times_a_billion % 6283185307180;
 
         // Divides by 1 million and rounds to the nearest integer.
         if angle_times_a_billion % 1000000000 > 499999999 {
@@ -58,34 +58,32 @@ pub fn normalize_angle(angle: i64) -> i64 {
         } else {
             return_angle = (angle_times_a_billion / 1000000000) as i64;
         }
-        // Handles the case in which the angle is less than 2 pi thousandth radians.
+
+        // Handles negative angles.
     } else if return_angle < 0 {
-        // Handles cases in which the angle is less than 2 pi radians.
-        if return_angle < -6282 {
-            // Multiplied by 1000000 to allow more precision.
-            let mut angle_times_a_billion = i64::from(return_angle * 1000000000);
+        // Multiplied by 1 billion to allow more precision.
+        let mut angle_times_a_billion = i128::from(return_angle) * 1000000000;
 
-            // Normalizes angle
-            angle_times_a_billion = angle_times_a_billion % -6283185307;
+        // Normalizes angle
+        angle_times_a_billion = angle_times_a_billion % 6283185307180;
 
-            // Divides by 1 million and rounds to the nearest integer.
-            if angle_times_a_billion % 1000000000 < -499999999 {
-                return_angle = (angle_times_a_billion / 1000000000 - 1) as i64;
-            } else {
-                return_angle = (angle_times_a_billion / 1000000000) as i64;
-            }
-        }
+        // Converts negative angle into positive angle.
+        angle_times_a_billion = angle_times_a_billion + 6283185307180;
 
-        // Converts negative angles into positive angles.
-        return_angle = 6283 + return_angle;
-
-        // Handles the case in which the angle is "exactly" 2 pi radians.
-        if return_angle == 6283 {
-            return_angle = 0;
+        // Divides by 1 billion and rounds to the nearest integer.
+        if angle_times_a_billion % 1000000000 > 499999999 {
+            return_angle = (angle_times_a_billion / 1000000000 + 1) as i64;
+        } else {
+            return_angle = (angle_times_a_billion / 1000000000) as i64;
         }
     }
 
-    // Returns angle in thousanth angles.
+    // Handles the case in which the angle is "exactly" 2 pi radians.
+    if return_angle == 6283 {
+        return_angle = 0;
+    }
+
+    // Returns angle in thousandth angle.
     return return_angle;
 }
 
@@ -140,31 +138,35 @@ mod tests {
 
     #[test]
     fn test_normalize_angle() {
+        test_equal_angle(normalize_angle(7000), angle_normalizer(7000.0), 7000);
+        test_equal_angle(normalize_angle(-12568), angle_normalizer(-12568.0), -12568);
 
-
-        test_equal_angle(normalize_angle(-12568), angle_normalizer(-12568.0)); //fails
-        
-        /* for a in -7000..7000 {
-            for b in -7000..7001 as i64 {
-                test_equal_angle(
-                    normalize_angle(a * 1000000),
-                    angle_normalizer((b * 1000000) as f64)
-                );
-            }
-        } */
+        for a in -7000..7000 {
+            test_equal_angle(normalize_angle (a), angle_normalizer(a as f64), a);
+        }
     }
 
     fn angle_normalizer(thousandth_angle: f64) -> f64 {
         let mut angle = thousandth_angle / 1000.0;
         angle = angle.sin().asin();
+
+        if angle < -1.5 || angle > 1.5 {
+
+            angle = thousandth_angle / 1000.0;
+            angle = angle.cos().acos();
+
+        }
+
         if angle < 0.0 {
             angle = angle + std::f64::consts::PI * 2.0;
         }
 
+        
+
         return angle * 1000.0;
     }
 
-    fn test_equal_angle(thousandth_integer_angle: i64, thousandth_float_angle: f64) {
+    fn test_equal_angle(thousandth_integer_angle: i64, thousandth_float_angle: f64, number: i64) {
         let test: bool;
 
         if
@@ -175,7 +177,7 @@ mod tests {
             test = true;
         } else {
             test = false;
-            println!(" {} {} ", thousandth_integer_angle, thousandth_float_angle);
+            println!(" {} {} {} ", number, thousandth_integer_angle, thousandth_float_angle);
             println!("");
         }
         assert_eq!(test, true);
