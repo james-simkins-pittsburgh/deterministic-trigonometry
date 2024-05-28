@@ -140,11 +140,11 @@ mod tests {
 
     #[test]
     fn test_normalize_angle() {
-        test_equal_angle(normalize_angle(7000), angle_normalizer(7000.0), 7000);
-        test_equal_angle(normalize_angle(-12568), angle_normalizer(-12568.0), -12568);
+        test_equal_angle(normalize_angle(7000), angle_normalizer(7000.0));
+        test_equal_angle(normalize_angle(-12568), angle_normalizer(-12568.0));
 
-        for a in -6284..6284 {
-            test_equal_angle(normalize_angle (a * 1000000), angle_normalizer((a *1000000) as f64), a);
+        for a in -7000..7000 {
+            test_equal_angle(normalize_angle(a * 1000000), angle_normalizer((a * 1000000) as f64));
         }
     }
 
@@ -152,27 +152,25 @@ mod tests {
         let mut angle = thousandth_angle / 1000.0;
         angle = angle % (2.0 * std::f64::consts::PI);
         if angle < 0.0 {
-
             angle = angle + 2.0 * std::f64::consts::PI;
         }
 
         return angle * 1000.0;
     }
 
-    fn test_equal_angle(thousandth_integer_angle: i64, thousandth_float_angle: f64, number: i64) {
+    fn test_equal_angle(thousandth_integer_angle: i64, thousandth_float_angle: f64) {
         let test: bool;
 
         if
             (thousandth_float_angle.round() as i64) == thousandth_integer_angle ||
             // This excludes various exceptions due to rounding errors.
             ((thousandth_float_angle - (thousandth_integer_angle as f64)).abs() - 0.5).abs() <
-                0.001 || (thousandth_float_angle.round() as i64 == 6283 && thousandth_integer_angle == 0)
+                0.001 ||
+            ((thousandth_float_angle.round() as i64) == 6283 && thousandth_integer_angle == 0)
         {
             test = true;
         } else {
             test = false;
-            println!(" {} {} {} ", number, thousandth_integer_angle, thousandth_float_angle);
-            println!("");
         }
         assert_eq!(test, true);
     }
