@@ -91,6 +91,7 @@ pub fn normalize_angle(thousandth_angle: i64) -> i64 {
 mod tests {
     use super::*;
 
+    // This tests to make sure the denominator to 1000 works in a range of cases.
     #[test]
     fn test_denominator_to_1000() {
         test_equal_fraction((8.0, 1000.0), (8, 1000));
@@ -122,6 +123,7 @@ mod tests {
         if
             (((float_fraction.0 / float_fraction.1) * 1000.0).round() as i64) ==
                 denominator_to_1000(integer_fraction) ||
+            // This excludes various exceptions due to rounding errors.
             (
                 (
                     (float_fraction.0 / float_fraction.1) * 1000.0 -
@@ -141,27 +143,18 @@ mod tests {
         test_equal_angle(normalize_angle(7000), angle_normalizer(7000.0), 7000);
         test_equal_angle(normalize_angle(-12568), angle_normalizer(-12568.0), -12568);
 
-        for a in -7000..7000 {
-            test_equal_angle(normalize_angle (a), angle_normalizer(a as f64), a);
+        for a in -6284..6284 {
+            test_equal_angle(normalize_angle (a * 1000000), angle_normalizer((a *1000000) as f64), a);
         }
     }
 
     fn angle_normalizer(thousandth_angle: f64) -> f64 {
         let mut angle = thousandth_angle / 1000.0;
-        angle = angle.sin().asin();
-
-        if angle < -1.5 || angle > 1.5 {
-
-            angle = thousandth_angle / 1000.0;
-            angle = angle.cos().acos();
-
-        }
-
+        angle = angle % (2.0 * std::f64::consts::PI);
         if angle < 0.0 {
-            angle = angle + std::f64::consts::PI * 2.0;
-        }
 
-        
+            angle = angle + 2.0 * std::f64::consts::PI;
+        }
 
         return angle * 1000.0;
     }
@@ -171,8 +164,9 @@ mod tests {
 
         if
             (thousandth_float_angle.round() as i64) == thousandth_integer_angle ||
+            // This excludes various exceptions due to rounding errors.
             ((thousandth_float_angle - (thousandth_integer_angle as f64)).abs() - 0.5).abs() <
-                0.00001
+                0.001 || (thousandth_float_angle.round() as i64 == 6283 && thousandth_integer_angle == 0)
         {
             test = true;
         } else {

@@ -20,8 +20,8 @@
  
  Limitations:
 
- - Very large input numbers for sine, cosine and tangent (over 2,000,000 pi) may be inaccurate due to the way in which the program rounds number when it regularizes angles.
+ - Inputs with very high absolute values (both positive and negative) for sine, cosine and tangent may be slightly inaccurate due to the way in which the program rounds number when it regularizes angles.
+ - Input values that use denominators that are not factors of 1000 may have slight rounding errors.
  - Tangent values very close to PI / 2 may be inaccurate due to rounding very close to the limit at PI / 2.
  - Arcsin below -1 and above 1 return as -1571/1000 (-PI/2) and 1571/1000 (PI/2) when that is really undefined.
  - Arccos below -1 and above 1 return as 3142/1000 (PI) and 0/1000 when that is really undefined.
- - Input values that use denominators that are not factors of 1000 may have slight rounding errors.
