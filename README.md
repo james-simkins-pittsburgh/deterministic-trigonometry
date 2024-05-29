@@ -3,7 +3,7 @@
  
  It will be a library for doing basic trigonometry calculations without using any floating-point arithmetic. 
 
- This library, once completed, will mainly be useful for doing trigonometry for simulations within games
+ This library, once completed, will mainly be useful for trigonometry for simulations within games
  that use lockstep determinism and therefore wish to avoid the indeterminism that comes with using
  floating point arithmetic across different architectures. This library will avoid that problem by
  using only integer data types internally.
@@ -15,13 +15,20 @@
  exactly reproducible results across different architectures. For now, it will support sine, cosine, tangent,
  arcsine, arccosine, and arctangent.
 
- Input will be given as an (i32, i32) tuple representing the numerator and denominator of a fraction in radians for
- angles or as a number for proportions. With the exception of the limitations below, all return values should be returned as a numerator and denominator tuple (i32,i32) representing a fraction which is accurate to the nearest thousanth. The second i32 will always be 1000. 
+ Input will be given as an (i32, i32) tuple representing the numerator and denominator of a fraction in radians for sine, cosine, and tangent or as a plain fraction for arcsine, arccosine, and arctangent. All results are returned as a numerator and denominator tuple (i32,i32). The output denominator is always 1000 to allow easy conversion to fixed point decimals.
  
- Limitations:
+Not on Accuracy
 
- - Inputs with very high absolute values (both positive and negative) for sine, cosine and tangent may be slightly inaccurate due to the way in which the program rounds number when it regularizes angles.
- - Input values that use denominators that are not factors of 1000 may have slight rounding errors.
- - Tangent values very close to PI / 2 may be inaccurate due to rounding very close to the limit at PI / 2.
- - Arcsin below -1 and above 1 return as -1571/1000 (-PI/2) and 1571/1000 (PI/2) when that is really undefined.
- - Arccos below -1 and above 1 return as 3142/1000 (PI) and 0/1000 when that is really undefined.
+ - For inputs with 1000 (or a factor of 1000) in the denominator and a value between 0/1000 and 6283/1000 (0 and 2 PI) the fractional result is always accurate to the nearest thousandth.
+ - For inputs that are fractions with values above 6283/1000, negative fraction, and/or fractions with denominators that are not factor of 2, the results are usually accurate to the nearest thousandth but may sometimes differ by 1/1000 in either direction because of double rounding.
+ - Bigger differences are possible when double rounding is combined with values very close to the asymptote of tangent at multiples of 
+ PI/2. This is because small rounding error are amplified by the behavior of the tangent function approaching positive or negative
+ infinity. This is not a problem between 0 and 2 PI. 
+ - When in doubt, check the unit tests for each function to verify their accuracy or construct your own tests.
+
+Note on Domain of Arcsine and Arccosine
+
+ - Arcsine inputs below -1 and above 1 return as -1571/1000 (-PI/2) and 1571/1000 (PI/2) when that is really mathematically undefined.
+ - Arccosine inputs below -1 and above 1 return as 3142/1000 (PI) and 0/1000 when that is really mathematically undefined.
+ - This decision made to allow for ease of use. If it is important to detect erroneous inputs outside of the true domain
+ for arcsine and arccosine, this error detection should be implemented in the code using this library.

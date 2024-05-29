@@ -23,11 +23,7 @@ pub mod utility;
 // These functions pull the appropriate results out of the arrays.
 impl DTrig {
     pub fn sine(&self, argument_fraction: (i32, i32)) -> (i32, i32) {
-        
-        println!("{}", utility::normalize_angle(
-            utility::denominator_to_1000(argument_fraction)
-        ) as usize);
-
+   
         return (
             i32::from(
                 self.sine_array
@@ -184,7 +180,7 @@ mod tests {
     fn test_sine() {
         let dtrig = DTrig::initialize();
 
-        for a in -1000..1000 {
+        for a in 0..6283 {
             if ((((a as f64) / 1000.0).sin() * 1000.0).round() as i32) != dtrig.sine((a, 1000)).0 {
                 let b = ((a as f64) / 1000.0).sin() * 1000.0;
                 let c = dtrig.sine((a, 1000)).0;
