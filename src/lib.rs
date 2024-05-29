@@ -179,18 +179,22 @@ mod tests {
     #[test]
     fn test_sine() {
         let dtrig = DTrig::initialize();
+        let mut result:bool;
 
         for a in 0..6283 {
-            if ((((a as f64) / 1000.0).sin() * 1000.0).round() as i32) != dtrig.sine((a, 1000)).0 {
+            if ((((a as f64) / 1000.0).sin() * 1000.0).round() as i32) == dtrig.sine((a, 1000)).0 {
+                
+                result = true;
+
+            } else {
+                result = false;
                 let b = ((a as f64) / 1000.0).sin() * 1000.0;
                 let c = dtrig.sine((a, 1000)).0;
                 println!(" {} {} {} ", a, b, c);
             }
 
-            assert_eq!(
-                (((a as f64) / 1000.0).sin() * 1000.0).round() as i32,
-                dtrig.sine((a, 1000)).0
-            );
+            assert_eq!
+                (result, true);
         }
     }
 }

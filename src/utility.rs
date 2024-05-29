@@ -8,7 +8,7 @@ pub fn denominator_to_1000(argument_fraction_i32: (i32, i32)) -> i64 {
     if argument_fraction.1 == 1000 {
         return i64::from(argument_fraction.0);
     } else {
-        // Handles other denominators with appropriate rounding to nearest thousandth.
+        // Handles other denominators by rounding to nearest thousandth.
         if argument_fraction.1 % 2 == 0 {
             if
                 ((argument_fraction.0 * 1000) % argument_fraction.1).abs() >=
@@ -46,6 +46,7 @@ pub fn normalize_angle(thousandth_angle: i64) -> i64 {
 
     // Handles the case in which the angle is greater than or equal to 2 pi radians.
     if return_angle > 6282 {
+
         // Multiplied by 1000000 to allow more precision.
         let mut angle_times_a_billion = i128::from(return_angle) * 1000000000;
 
@@ -61,6 +62,7 @@ pub fn normalize_angle(thousandth_angle: i64) -> i64 {
 
         // Handles negative angles.
     } else if return_angle < 0 {
+       
         // Multiplied by 1 billion to allow more precision.
         let mut angle_times_a_billion = i128::from(return_angle) * 1000000000;
 
@@ -76,11 +78,11 @@ pub fn normalize_angle(thousandth_angle: i64) -> i64 {
         } else {
             return_angle = (angle_times_a_billion / 1000000000) as i64;
         }
-    }
 
-    // Handles the case in which the angle is "exactly" 2 pi radians.
-    if return_angle == 6283 {
-        return_angle = 0;
+        // Handles the case in which the angle is now "exactly" 2 pi radians.
+        if return_angle == 6283 {
+            return_angle = 0;
+        }
     }
 
     // Returns angle in thousandth angle.
@@ -91,7 +93,7 @@ pub fn normalize_angle(thousandth_angle: i64) -> i64 {
 mod tests {
     use super::*;
 
-    // This tests to make sure the denominator to 1000 works in a range of cases.
+    // This tests that the denominator to 1000 function works in a wide range of cases.
     #[test]
     fn test_denominator_to_1000() {
         test_equal_fraction((8.0, 1000.0), (8, 1000));
@@ -139,15 +141,21 @@ mod tests {
     }
 
     #[test]
+
+    // This tests that the normalize angle function works in a variety of cases.
     fn test_normalize_angle() {
+
+        // Tests two random values.
         test_equal_angle(normalize_angle(7000), angle_normalizer(7000.0));
         test_equal_angle(normalize_angle(-12568), angle_normalizer(-12568.0));
 
+        // Tests from just under 2 million pi to just over 2 million pi in intervals of 1,000.
         for a in -7000..7000 {
             test_equal_angle(normalize_angle(a * 1000000), angle_normalizer((a * 1000000) as f64));
         }
     }
 
+    // Normalizes angles the way one would with floating point available.
     fn angle_normalizer(thousandth_angle: f64) -> f64 {
         let mut angle = thousandth_angle / 1000.0;
         angle = angle % (2.0 * std::f64::consts::PI);
@@ -166,6 +174,7 @@ mod tests {
             // This excludes various exceptions due to rounding errors.
             ((thousandth_float_angle - (thousandth_integer_angle as f64)).abs() - 0.5).abs() <
                 0.001 ||
+            // This covers the case in which the rounding for the float goes up to 2 PI
             ((thousandth_float_angle.round() as i64) == 6283 && thousandth_integer_angle == 0)
         {
             test = true;
