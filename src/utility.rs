@@ -46,7 +46,6 @@ pub fn normalize_angle(thousandth_angle: i64) -> i64 {
 
     // Handles the case in which the angle is greater than or equal to 2 pi radians.
     if return_angle > 6282 {
-
         // Multiplied by 1000000 to allow more precision.
         let mut angle_times_a_billion = i128::from(return_angle) * 1000000000;
 
@@ -62,7 +61,6 @@ pub fn normalize_angle(thousandth_angle: i64) -> i64 {
 
         // Handles negative angles.
     } else if return_angle < 0 {
-       
         // Multiplied by 1 billion to allow more precision.
         let mut angle_times_a_billion = i128::from(return_angle) * 1000000000;
 
@@ -78,11 +76,11 @@ pub fn normalize_angle(thousandth_angle: i64) -> i64 {
         } else {
             return_angle = (angle_times_a_billion / 1000000000) as i64;
         }
+    }
 
-        // Handles the case in which the angle is now "exactly" 2 pi radians.
-        if return_angle == 6283 {
-            return_angle = 0;
-        }
+    // Handles the case in which the angle is now "exactly" 2 pi radians.
+    if return_angle == 6283 {
+        return_angle = 0;
     }
 
     // Returns angle in thousandth angle.
@@ -144,7 +142,6 @@ mod tests {
 
     // This tests that the normalize angle function works in a variety of cases.
     fn test_normalize_angle() {
-
         // Tests two random values.
         test_equal_angle(normalize_angle(7000), angle_normalizer(7000.0));
         test_equal_angle(normalize_angle(-12568), angle_normalizer(-12568.0));
