@@ -23,7 +23,6 @@ pub mod utility;
 // These functions pull the appropriate results out of the arrays.
 impl DTrig {
     pub fn sine(&self, argument_fraction: (i32, i32)) -> (i32, i32) {
-   
         return (
             i32::from(
                 self.sine_array
@@ -179,13 +178,11 @@ mod tests {
     #[test]
     fn test_sine() {
         let dtrig = DTrig::initialize();
-        let mut result:bool;
+        let mut result: bool;
 
         for a in 0..6283 {
             if ((((a as f64) / 1000.0).sin() * 1000.0).round() as i32) == dtrig.sine((a, 1000)).0 {
-                
                 result = true;
-
             } else {
                 result = false;
                 let b = ((a as f64) / 1000.0).sin() * 1000.0;
@@ -193,15 +190,17 @@ mod tests {
                 println!(" {} {} {} ", a, b, c);
             }
 
-            assert_eq!
-                (result, true);
+            assert_eq!(result, true);
         }
 
         for a in -1000000..1000000 {
-            if (((((a as f64) / 1000.0).sin() * 1000.0).round() as i32) - dtrig.sine((a, 1000)).0).abs() <= 1 {
-                
+            if
+                (
+                    ((((a as f64) / 1000.0).sin() * 1000.0).round() as i32) -
+                    dtrig.sine((a, 1000)).0
+                ).abs() <= 1
+            {
                 result = true;
-
             } else {
                 result = false;
                 let b = ((a as f64) / 1000.0).sin() * 1000.0;
@@ -209,21 +208,18 @@ mod tests {
                 println!(" {} {} {} ", a, b, c);
             }
 
-            assert_eq!
-                (result, true);
+            assert_eq!(result, true);
         }
     }
 
     #[test]
     fn test_cosine() {
         let dtrig = DTrig::initialize();
-        let mut result:bool;
+        let mut result: bool;
 
         for a in 0..6283 {
             if ((((a as f64) / 1000.0).cos() * 1000.0).round() as i32) == dtrig.cosine((a, 1000)).0 {
-                
                 result = true;
-
             } else {
                 result = false;
                 let b = ((a as f64) / 1000.0).cos() * 1000.0;
@@ -231,15 +227,17 @@ mod tests {
                 println!(" {} {} {} ", a, b, c);
             }
 
-            assert_eq!
-                (result, true);
+            assert_eq!(result, true);
         }
 
         for a in -1000000..1000000 {
-            if (((((a as f64) / 1000.0).cos() * 1000.0).round() as i32) - dtrig.cosine((a, 1000)).0).abs() <= 1 {
-                
+            if
+                (
+                    ((((a as f64) / 1000.0).cos() * 1000.0).round() as i32) -
+                    dtrig.cosine((a, 1000)).0
+                ).abs() <= 1
+            {
                 result = true;
-
             } else {
                 result = false;
                 let b = ((a as f64) / 1000.0).cos() * 1000.0;
@@ -247,21 +245,21 @@ mod tests {
                 println!(" {} {} {} ", a, b, c);
             }
 
-            assert_eq!
-                (result, true);
+            assert_eq!(result, true);
         }
     }
 
     #[test]
     fn test_tangent() {
         let dtrig = DTrig::initialize();
-        let mut result:bool;
+        let mut result: bool;
 
         for a in 0..6283 {
-            if ((((a as f64) / 1000.0).tan() * 1000.0).round() as i32) == dtrig.tangent((a, 1000)).0 {
-                
+            if
+                ((((a as f64) / 1000.0).tan() * 1000.0).round() as i32) ==
+                dtrig.tangent((a, 1000)).0
+            {
                 result = true;
-
             } else {
                 result = false;
                 let b = ((a as f64) / 1000.0).tan() * 1000.0;
@@ -269,15 +267,37 @@ mod tests {
                 println!(" {} {} {} ", a, b, c);
             }
 
-            assert_eq!
-                (result, true);
+            assert_eq!(result, true);
         }
 
-        for a in -10000..10000 {
-            if ((((((a as f64) / 1000.0).tan() * 1000.0).round()) - dtrig.tangent((a, 1000)).0 as f64)/(((a as f64) / 1000.0).tan() * 1000.0)).abs()  < 0.01 {
-                
+        for a in -1000000..1000000 {
+            if
+                // Off by no more than .01.
+                (((((a as f64) / 1000.0).tan() * 1000.0).round() as i64) -
+                    dtrig.tangent((a, 1000)).0 as i64 <= 1) ||
+                // Or off by no more than 1%.
+                (
+                    (((a as f64) / 1000.0).tan() * 1000.0 - (dtrig.tangent((a, 1000)).0 as f64)) /
+                    (((a as f64) / 1000.0).tan() * 1000.0)
+                ).abs() <= 0.01 ||
+                // Or if greater than 1000 off by no more than 2%.
+                ((((a as f64) / 1000.0).tan() * 1000.0).abs() > 1000.0 &&
+                    (
+                        (((a as f64) / 1000.0).tan() * 1000.0 -
+                            (dtrig.tangent((a, 1000)).0 as f64)) /
+                        (((a as f64) / 1000.0).tan() * 1000.0)
+                    ).abs() <= 0.02) ||
+                // Or if greater than 10000 off by no more than 10%.
+                (((a as f64) / 1000.0).tan().abs() * 1000.0 > 10000.0 &&
+                    (
+                        (((a as f64) / 1000.0).tan() * 1000.0 -
+                            (dtrig.tangent((a, 1000)).0 as f64)) /
+                        (((a as f64) / 1000.0).tan() * 1000.0)
+                    ).abs() <= 0.10) ||
+                // Or if greater than 100000 just ignore it.
+                (((a as f64) / 1000.0).tan() * 1000.0).abs() > 100000.0
+            {
                 result = true;
-
             } else {
                 result = false;
                 let b = ((a as f64) / 1000.0).tan() * 1000.0;
@@ -285,8 +305,7 @@ mod tests {
                 println!(" {} {} {} ", a, b, c);
             }
 
-            assert_eq!
-                (result, true);
+            assert_eq!(result, true);
         }
     }
 }

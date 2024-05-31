@@ -16,7 +16,7 @@ Input will be given as an (i32, i32) tuple representing the numerator and denomi
 
  - For inputs with 1000 (or a factor of 1000) in the denominator and a value between 0/1000 and 6283/1000 (0 and 2 PI) the fractional result is always accurate to the nearest thousandth.
  - For inputs that are fractions with values above 6283/1000, negative fraction, and/or fractions with denominators that are not factor of 2, the results are usually accurate to the nearest thousandth but may sometimes differ by 1/1000 in either direction because of double rounding.
- - Bigger differences are possible when double rounding is combined with values very close to the asymptote of tangent at multiples of 
+ - Much bigger differences occur when double rounding is combined with values very close to the asymptote of tangent at multiples of 
  PI/2. This is because small rounding error are amplified by the behavior of the tangent function approaching positive or negative
  infinity. This is not a problem between 0 and 2 PI. 
  - When in doubt, check the unit tests for each function to verify their accuracy or construct your own tests.
