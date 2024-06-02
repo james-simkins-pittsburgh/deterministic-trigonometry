@@ -148,7 +148,7 @@ impl DTrig {
             } else {
                 return (
                     i32::from(
-                        self.arctangent_tenths[(numerator_out_of_1000 / 1000 + 1 + 1000) as usize]
+                        self.arctangent_ones[(numerator_out_of_1000 / 1000 + 1 + 1000) as usize]
                     ),
                     1000,
                 );
@@ -355,7 +355,6 @@ mod tests {
         let dtrig = DTrig::initialize();
         let mut result: bool;
 
-        
         for a in -2000..2001 {
             if
                 ((((a as f64) / 1000.0).atan() * 1000.0).round() as i32) ==
@@ -371,12 +370,11 @@ mod tests {
 
             assert_eq!(result, true);
         }
-    
 
-         for a in -20000..20001 {
+        for a in -10000000..10000001 {
             if
                 ((((a as f64) / 1000.0).atan() * 1000.0).round() as i32) -
-                dtrig.arctangent((a, 1000)).0 <= 1
+                    dtrig.arctangent((a, 1000)).0 <= 1
             {
                 result = true;
             } else {
@@ -388,5 +386,5 @@ mod tests {
 
             assert_eq!(result, true);
         }
-    } 
+    }
 }
