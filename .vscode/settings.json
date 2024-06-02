@@ -1,5 +1,8 @@
 {
     "cSpell.words": [
         "dtrig"
+    ],
+    "cSpell.ignoreWords": [
+        "consts"
     ]
 }

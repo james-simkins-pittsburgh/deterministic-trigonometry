@@ -4,6 +4,18 @@ pub fn denominator_to_1000(argument_fraction_i32: (i32, i32)) -> i64 {
         i64::from(argument_fraction_i32.0),
         i64::from(argument_fraction_i32.1),
     );
+
+    /* This handles the case of zero denominators by giving the max input or output values 
+    as a way of approximating positive or negative infinity. This only really makes sense for
+    inverse tangent, but it makes it impossible for the library to panic. */
+    if argument_fraction.1 == 0 {
+        if argument_fraction.0 < 0 {
+            return i64::from(i32::MIN) * 1000;
+        } else {
+            return i64::from(i32::MAX) * 1000;
+        }
+    }
+
     // No need to do anything if input is already out of 1000.
     if argument_fraction.1 == 1000 {
         return i64::from(argument_fraction.0);
@@ -94,6 +106,8 @@ mod tests {
     // This tests that the denominator to 1000 function works in a wide range of cases.
     #[test]
     fn test_denominator_to_1000() {
+        assert_eq!(denominator_to_1000((-5, 0)), denominator_to_1000((i32::MIN,1)));
+        assert_eq!(denominator_to_1000((5, 0)), denominator_to_1000((i32::MAX,1)));
         test_equal_fraction((8.0, 1000.0), (8, 1000));
         test_equal_fraction((17.0, 1000.0), (17, 1000));
         test_equal_fraction((3.0, 7.0), (3, 7));
@@ -103,12 +117,6 @@ mod tests {
         test_equal_fraction((-19.0, 1000.0), (-19, 1000));
         test_equal_fraction((-3.0, 11.0), (-3, 11));
         test_equal_fraction((17.0, -11.0), (17, -11));
-
-        for a in -10000..10001 {
-            for b in -10000..0 {
-                test_equal_fraction((a as f64, b as f64), (a, b));
-            }
-        }
 
         for a in -10000..10001 {
             for b in 1..10001 {

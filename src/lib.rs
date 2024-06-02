@@ -182,9 +182,6 @@ mod tests {
                 result = true;
             } else {
                 result = false;
-                let b = ((a as f64) / 1000.0).sin() * 1000.0;
-                let c = dtrig.sine((a, 1000)).0;
-                println!(" {} {} {} ", a, b, c);
             }
 
             assert_eq!(result, true);
@@ -200,9 +197,6 @@ mod tests {
                 result = true;
             } else {
                 result = false;
-                let b = ((a as f64) / 1000.0).sin() * 1000.0;
-                let c = dtrig.sine((a, 1000)).0;
-                println!(" {} {} {} ", a, b, c);
             }
 
             assert_eq!(result, true);
@@ -219,9 +213,6 @@ mod tests {
                 result = true;
             } else {
                 result = false;
-                let b = ((a as f64) / 1000.0).cos() * 1000.0;
-                let c = dtrig.cosine((a, 1000)).0;
-                println!(" {} {} {} ", a, b, c);
             }
 
             assert_eq!(result, true);
@@ -237,9 +228,6 @@ mod tests {
                 result = true;
             } else {
                 result = false;
-                let b = ((a as f64) / 1000.0).cos() * 1000.0;
-                let c = dtrig.cosine((a, 1000)).0;
-                println!(" {} {} {} ", a, b, c);
             }
 
             assert_eq!(result, true);
@@ -259,9 +247,6 @@ mod tests {
                 result = true;
             } else {
                 result = false;
-                let b = ((a as f64) / 1000.0).tan() * 1000.0;
-                let c = dtrig.tangent((a, 1000)).0;
-                println!(" {} {} {} ", a, b, c);
             }
 
             assert_eq!(result, true);
@@ -297,9 +282,6 @@ mod tests {
                 result = true;
             } else {
                 result = false;
-                let b = ((a as f64) / 1000.0).tan() * 1000.0;
-                let c = dtrig.tangent((a, 1000)).0;
-                println!(" {} {} {} ", a, b, c);
             }
 
             assert_eq!(result, true);
@@ -319,9 +301,6 @@ mod tests {
                 result = true;
             } else {
                 result = false;
-                let b = ((a as f64) / 1000.0).asin() * 1000.0;
-                let c = dtrig.arcsine((a, 1000)).0;
-                println!(" {} {} {} ", a, b, c);
             }
 
             assert_eq!(result, true);
@@ -341,9 +320,6 @@ mod tests {
                 result = true;
             } else {
                 result = false;
-                let b = ((a as f64) / 1000.0).acos() * 1000.0;
-                let c = dtrig.arccosine((a, 1000)).0;
-                println!(" {} {} {} ", a, b, c);
             }
 
             assert_eq!(result, true);
@@ -363,9 +339,6 @@ mod tests {
                 result = true;
             } else {
                 result = false;
-                let b = ((a as f64) / 1000.0).atan() * 1000.0;
-                let c = dtrig.arctangent((a, 1000)).0;
-                println!(" {} {} {} ", a, b, c);
             }
 
             assert_eq!(result, true);
@@ -379,12 +352,24 @@ mod tests {
                 result = true;
             } else {
                 result = false;
-                let b = ((a as f64) / 1000.0).atan() * 1000.0;
-                let c = dtrig.arctangent((a, 1000)).0;
-                println!(" {} {} {} ", a, b, c);
             }
 
             assert_eq!(result, true);
+        }
+
+        for a in -10000..10001 {
+            for b in 1..10001 {
+                if
+                    ((((a as f64) / (b as f64)).atan() * 1000.0).round() as i32) -
+                        dtrig.arctangent((a, b)).0 <= 1
+                {
+                    result = true;
+                } else {
+                    result = false;
+                }
+
+                assert_eq!(result, true);
+            }
         }
     }
 }
