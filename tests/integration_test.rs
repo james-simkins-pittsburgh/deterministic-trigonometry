@@ -1,3 +1,5 @@
+use deterministic_trigonometry::DTrig;
+
 fn main() {
 
     // Assigns 10,000 random numbers between -100,000 and 100,000
@@ -5,8 +7,33 @@ fn main() {
     
     // Assigns 10,000 random numbers between -100,000 and 100,000
     let random_array_2 = random_array_2();
+
+    let d_trig = DTrig::initialize();
+
+    for numerator in random_array_1.iter() {
+
+        for denominator in random_array_2.iter() {
+
+            test_all_functions (*numerator, *denominator, &d_trig);
+
+        }
+    }
+
+    for numerator in -10000..10001 {
+
+        for denominator in 0..10001 {
+
+            test_all_functions (numerator, denominator, &d_trig);
+        }
+    }
+
+
 }
 
+fn test_all_functions (numerator: i32, denominator:i32, d_trig: &DTrig) {
+
+
+}
 
 fn random_array_1 () -> [i32; 10000] {
     return [
