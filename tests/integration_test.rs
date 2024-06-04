@@ -1,41 +1,58 @@
 use deterministic_trigonometry::DTrig;
-
 fn main() {
-
     // Assigns 10,000 random numbers between -100,000 and 100,000
     let random_array_1 = random_array_1();
-    
+
     // Assigns 10,000 random numbers between -100,000 and 100,000
     let random_array_2 = random_array_2();
 
     let d_trig = DTrig::initialize();
 
     for numerator in random_array_1.iter() {
-
         for denominator in random_array_2.iter() {
-
-            test_all_functions (*numerator, *denominator, &d_trig);
-
+            test_all_functions(*numerator, *denominator, &d_trig);
         }
     }
 
     for numerator in -10000..10001 {
-
         for denominator in 0..10001 {
-
-            test_all_functions (numerator, denominator, &d_trig);
+            test_all_functions(numerator, denominator, &d_trig);
         }
     }
 
+    // A variable that in intentionally never read.
+    let mut _not_read;
 
+    // This part just makes sure that none of these operations cause panics.
+    _not_read = d_trig.sine((i32::MAX, 1));
+    _not_read = d_trig.sine((i32::MIN, 1));
+    _not_read = d_trig.cosine((i32::MAX, 1));
+    _not_read = d_trig.cosine((i32::MIN, 1));
+    _not_read = d_trig.tangent((i32::MAX, 1));
+    _not_read = d_trig.tangent((i32::MIN, 1));
+    _not_read = d_trig.arcsine((i32::MAX, 1));
+    _not_read = d_trig.arcsine((i32::MIN, 1));
+    _not_read = d_trig.arccosine((i32::MAX, 1));
+    _not_read = d_trig.arccosine((i32::MIN, 1));
+    _not_read = d_trig.arctangent((i32::MAX, 1));
+    _not_read = d_trig.arctangent((i32::MIN, 1));
+    _not_read = d_trig.sine((5, 0));
+    _not_read = d_trig.sine((0, 0));
+    _not_read = d_trig.cosine((5, 0));
+    _not_read = d_trig.cosine((0, 0));
+    _not_read = d_trig.tangent((5, 0));
+    _not_read = d_trig.tangent((0, 0));
+    _not_read = d_trig.arcsine((5, 0));
+    _not_read = d_trig.arcsine((0, 0));
+    _not_read = d_trig.arccosine((5, 0));
+    _not_read = d_trig.arccosine((0, 0));
+    _not_read = d_trig.arctangent((5, 0));
+    _not_read = d_trig.arctangent((0, 0));
 }
 
-fn test_all_functions (numerator: i32, denominator:i32, d_trig: &DTrig) {
+fn test_all_functions(numerator: i32, denominator: i32, d_trig: &DTrig) {}
 
-
-}
-
-fn random_array_1 () -> [i32; 10000] {
+fn random_array_1() -> [i32; 10000] {
     return [
         8923, 91750, 605, -68668, 97699, 29935, -66713, -39775, 53832, 7895, 74098, -77044, -74520, 37135,
         34322, -37124, 23092, 28608, -48531, -99352, 40755, 82624, 3822, 55985, 18778, -2047,
@@ -817,10 +834,9 @@ fn random_array_1 () -> [i32; 10000] {
         -14063, 37041, 34912, 45353, -18756, 79772, 89423, 58694, -12381, 43649, -81149, 43239,
         90213, 35891,
     ];
-
 }
 
-fn random_array_2 () -> [i32; 10000] {
+fn random_array_2() -> [i32; 10000] {
     return [
         17448, 78363, -28250, 81820, -16365, 53384, -85473, 41082, 90083, 45939, -63826, 17726,
         -26015, 95822, -55159, -42804, 73709, -18174, 46068, -98185, 25827, 39115, 18620, 90270,
