@@ -1,4 +1,6 @@
 use deterministic_trigonometry::DTrig;
+
+#[test]
 fn main() {
     // Assigns 10,000 random numbers between -100,000 and 100,000
     let random_array_1 = random_array_1();
@@ -15,7 +17,7 @@ fn main() {
     }
 
     for numerator in -10000..10001 {
-        for denominator in 0..10001 {
+        for denominator in 1..10001 {
             test_all_functions(numerator, denominator, &d_trig);
         }
     }
@@ -50,7 +52,87 @@ fn main() {
     _not_read = d_trig.arctangent((0, 0));
 }
 
-fn test_all_functions(numerator: i32, denominator: i32, d_trig: &DTrig) {}
+fn test_all_functions(numerator: i32, denominator: i32, d_trig: &DTrig) {
+    let mut test: bool;
+
+    let fraction_as_f64 = (numerator as f64) / (denominator as f64);
+
+    /* This captures that sine is accurate to the nearest 1/1000 from 0 to 2 PI  with a denominator that is factor of 1000 
+    and accurate to +/- 1/1000 otherwise. */
+    if
+        fraction_as_f64 >= 0.0 &&
+        fraction_as_f64 <= 2.0 * std::f64::consts::PI &&
+        1000 % denominator == 0
+    {
+        if
+            ((fraction_as_f64.sin() * 1000.0).round() as i32) ==
+            d_trig.sine((numerator, denominator)).0
+        {
+            test = true;
+        } else {
+            test = false;
+        }
+    } else {
+        if
+            (
+                ((fraction_as_f64.sin() * 1000.0).round() as i32) -
+                d_trig.sine((numerator, denominator)).0
+            ).abs() <= 1
+        {
+            test = true;
+        } else {
+            test = false;
+            println!(
+                "{} {} {} {}",
+                numerator,
+                denominator,
+                (fraction_as_f64.sin() * 1000.0).round(),
+                d_trig.sine((numerator, denominator)).0
+            );
+        }
+    }
+
+    assert!(test == true);
+
+    /* This captures that cosine is accurate to the nearest 1/1000 from 0 to 2 PI  with a denominator that is factor of 1000 
+    and accurate to +/- 1/1000 otherwise. */
+
+    if
+        fraction_as_f64 >= 0.0 &&
+        fraction_as_f64 <= 2.0 * std::f64::consts::PI &&
+        1000 % denominator == 0
+    {
+        if
+            ((fraction_as_f64.cos() * 1000.0).round() as i32) ==
+            d_trig.cosine((numerator, denominator)).0
+        {
+            test = true;
+        } else {
+            test = false;
+        }
+    } else {
+        if
+            (
+                ((fraction_as_f64.cos() * 1000.0).round() as i32) -
+                d_trig.cosine((numerator, denominator)).0
+            ).abs() <= 1
+        {
+            test = true;
+        } else {
+            test = false;
+            println!(
+                "{} {} {} {}",
+                numerator,
+                denominator,
+                (fraction_as_f64.cos() * 1000.0).round(),
+                d_trig.cosine((numerator, denominator)).0
+            );
+        }
+    }
+
+    assert!(test == true)
+
+}
 
 fn random_array_1() -> [i32; 10000] {
     return [
