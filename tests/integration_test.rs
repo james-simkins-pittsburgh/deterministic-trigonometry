@@ -82,13 +82,6 @@ fn test_all_functions(numerator: i32, denominator: i32, d_trig: &DTrig) {
             test = true;
         } else {
             test = false;
-            println!(
-                "{} {} {} {}",
-                numerator,
-                denominator,
-                (fraction_as_f64.sin() * 1000.0).round(),
-                d_trig.sine((numerator, denominator)).0
-            );
         }
     }
 
@@ -120,18 +113,58 @@ fn test_all_functions(numerator: i32, denominator: i32, d_trig: &DTrig) {
             test = true;
         } else {
             test = false;
-            println!(
-                "{} {} {} {}",
-                numerator,
-                denominator,
-                (fraction_as_f64.cos() * 1000.0).round(),
-                d_trig.cosine((numerator, denominator)).0
-            );
+        }
+    }
+
+    assert!(test == true);
+
+    /* This captures that tangent is accurate to the nearest 1/1000 from 0 to 2 PI  with a denominator that is factor of 1000 
+    and accurate to +/- 1/1000 otherwise unless it is close to an asymptote. 
+     */
+
+    if
+        fraction_as_f64 >= 0.0 &&
+        fraction_as_f64 <= 2.0 * std::f64::consts::PI &&
+        1000 % denominator == 0
+    {
+        if
+            ((fraction_as_f64.tan() * 1000.0).round() as i32) ==
+            d_trig.tangent((numerator, denominator)).0
+        {
+            test = true;
+        } else {
+            test = false;
+        }
+    } else {
+        if ((fraction_as_f64 - std::f64::consts::PI / 2.0) % std::f64::consts::PI).abs() > 0.5 {
+            if
+                (
+                    ((fraction_as_f64.tan() * 1000.0).round() as i32) -
+                    d_trig.tangent((numerator, denominator)).0
+                ).abs() <= 1
+            {
+                test = true;
+            } else {
+                print!(" {} {} {} {} ", numerator, denominator, fraction_as_f64.tan() * 1000.0, d_trig.tangent((numerator, denominator)).0);
+                test = false;
+            }
+        } else if (fraction_as_f64 - std::f64::consts::PI / 2.0) % std::f64::consts::PI > 0.01 {
+            if
+                (
+                    (fraction_as_f64.tan() * 1000.0).round() -
+                    (d_trig.tangent((numerator, denominator)).0 as f64)
+                ).abs() / (fraction_as_f64.tan() * 1000.0).round() < 0.1
+            {
+                test = true;
+            } else {
+                test = false;
+            }
+        } else {
+            test = true;
         }
     }
 
     assert!(test == true)
-
 }
 
 fn random_array_1() -> [i32; 10000] {
