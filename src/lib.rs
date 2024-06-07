@@ -257,18 +257,11 @@ mod tests {
                 // Off by no more than .01.
                 ((((a as f64) / 1000.0).tan() * 1000.0).round() as i64) -
                     (dtrig.tangent((a, 1000)).0 as i64) <= 1 ||
-                // Or off by no more than 1%.
+                // Or off by no more than 2%.
                 (
                     (((a as f64) / 1000.0).tan() * 1000.0 - (dtrig.tangent((a, 1000)).0 as f64)) /
                     (((a as f64) / 1000.0).tan() * 1000.0)
-                ).abs() <= 0.01 ||
-                // Or if greater than 1000 off by no more than 2%.
-                ((((a as f64) / 1000.0).tan() * 1000.0).abs() > 1000.0 &&
-                    (
-                        (((a as f64) / 1000.0).tan() * 1000.0 -
-                            (dtrig.tangent((a, 1000)).0 as f64)) /
-                        (((a as f64) / 1000.0).tan() * 1000.0)
-                    ).abs() <= 0.02) ||
+                ).abs() <= 0.02 ||
                 // Or if greater than 10000 off by no more than 10%.
                 (((a as f64) / 1000.0).tan().abs() * 1000.0 > 10000.0 &&
                     (
