@@ -179,7 +179,92 @@ fn test_all_functions(numerator: i32, denominator: i32, d_trig: &DTrig) {
         }
     }
 
-    assert!(test == true)
+    assert!(test == true);
+
+    /* This captures that Arcsine is accurate to the nearest 1/1000th */
+
+    if fraction_as_f64 >= -1.0 && fraction_as_f64 <= 1.0 && 1000 % denominator == 0 {
+        if
+            ((fraction_as_f64.asin() * 1000.0).round() as i32) ==
+            d_trig.arcsine((numerator, denominator)).0
+        {
+            test = true;
+        } else {
+            test = false;
+        }
+    } else if fraction_as_f64 >= -1.0 && fraction_as_f64 <= 1.0 {
+        if
+            (
+                ((fraction_as_f64.asin() * 1000.0).round() as i32) -
+                d_trig.arcsine((numerator, denominator)).0
+            ).abs() <= 2
+        {
+            test = true;
+        } else {
+            test = false;
+        }
+    } else {
+        // It is already known that the function give -PI/2 or PI/2 on purpose if the domain is out of the allowed range.
+        test = true;
+    }
+
+    assert!(test == true);
+
+    /* This captures that Arccosine is accurate to the nearest 1/1000th */
+
+    if fraction_as_f64 >= -1.0 && fraction_as_f64 <= 1.0 && 1000 % denominator == 0 {
+        if
+            ((fraction_as_f64.acos() * 1000.0).round() as i32) ==
+            d_trig.arccosine((numerator, denominator)).0
+        {
+            test = true;
+        } else {
+            test = false;
+        }
+    } else if fraction_as_f64 >= -1.0 && fraction_as_f64 <= 1.0 {
+        if
+            (
+                ((fraction_as_f64.acos() * 1000.0).round() as i32) -
+                d_trig.arccosine((numerator, denominator)).0
+            ).abs() <= 2
+        {
+            test = true;
+        } else {
+            test = false;
+        }
+    } else {
+        // It is already known that the function give -PI/2 or PI/2 on purpose if the domain is out of the allowed range.
+        test = true;
+    }
+
+    assert!(test == true);
+
+    /* This captures that Arctangent is accurate to the nearest 1/1000th if the denominator is a multiple of 1000 and to the nearest
+    +/- 1/1000th otherwise */
+
+    if 1000 % denominator == 0 {
+        if
+            ((fraction_as_f64.atan() * 1000.0).round() as i32) ==
+            d_trig.arctangent((numerator, denominator)).0
+        {
+            test = true;
+        } else {
+            test = false;
+        }
+    } else {
+        if
+        (
+            ((fraction_as_f64.atan() * 1000.0).round() as i32) -
+            d_trig.arctangent((numerator, denominator)).0
+        ).abs() <= 2
+        {
+            test = true;
+        } else {
+            test = false;
+        }
+    }
+
+    assert!(test == true);
 }
 
 fn random_array_1() -> [i32; 10000] {
