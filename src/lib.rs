@@ -106,7 +106,7 @@ impl DTrig {
             );
         } else if numerator_out_of_1000 >= -20000 && numerator_out_of_1000 <= 20000 {
             // Handles from -20 to 20.
-            if numerator_out_of_1000 % 10 < 5 {
+            if (numerator_out_of_1000 % 10).abs() < 5 {
                 return (
                     i32::from(
                         self.arctangent_hundredths[(numerator_out_of_1000 / 10 + 2000) as usize]
@@ -114,16 +114,27 @@ impl DTrig {
                     1000,
                 );
             } else {
-                return (
-                    i32::from(
-                        self.arctangent_hundredths[(numerator_out_of_1000 / 10 + 1 + 2000) as usize]
-                    ),
-                    1000,
-                );
+                if numerator_out_of_1000 > 0 {
+                    return (
+                        i32::from(
+                            self.arctangent_hundredths
+                                [(numerator_out_of_1000 / 10 + 1 + 2000) as usize]
+                        ),
+                        1000,
+                    );
+                } else {
+                    return (
+                        i32::from(
+                            self.arctangent_hundredths
+                                [(numerator_out_of_1000 / 10 - 1 + 2000) as usize]
+                        ),
+                        1000,
+                    );
+                }
             }
         } else if numerator_out_of_1000 >= -100000 && numerator_out_of_1000 <= 100000 {
             // Handles from -100 to 1000
-            if numerator_out_of_1000 % 100 < 50 {
+            if (numerator_out_of_1000 % 100).abs() < 50 {
                 return (
                     i32::from(
                         self.arctangent_tenths[(numerator_out_of_1000 / 100 + 1000) as usize]
@@ -131,12 +142,23 @@ impl DTrig {
                     1000,
                 );
             } else {
-                return (
-                    i32::from(
-                        self.arctangent_tenths[(numerator_out_of_1000 / 100 + 1 + 1000) as usize]
-                    ),
-                    1000,
-                );
+                if numerator_out_of_1000 > 0 {
+                    return (
+                        i32::from(
+                            self.arctangent_tenths
+                                [(numerator_out_of_1000 / 100 + 1 + 1000) as usize]
+                        ),
+                        1000,
+                    );
+                } else {
+                    return (
+                        i32::from(
+                            self.arctangent_tenths
+                                [(numerator_out_of_1000 / 100 - 1 + 1000) as usize]
+                        ),
+                        1000,
+                    );
+                }
             }
         } else if numerator_out_of_1000 >= -1000000 && numerator_out_of_1000 <= 1000000 {
             // Handles from -1000 to 1000.
@@ -146,12 +168,21 @@ impl DTrig {
                     1000,
                 );
             } else {
-                return (
-                    i32::from(
-                        self.arctangent_ones[(numerator_out_of_1000 / 1000 + 1 + 1000) as usize]
-                    ),
-                    1000,
-                );
+                if numerator_out_of_1000 > 0 {
+                    return (
+                        i32::from(
+                            self.arctangent_ones[(numerator_out_of_1000 / 1000 + 1 + 1000) as usize]
+                        ),
+                        1000,
+                    );
+                } else {
+                    return (
+                        i32::from(
+                            self.arctangent_ones[(numerator_out_of_1000 / 1000 - 1 + 1000) as usize]
+                        ),
+                        1000,
+                    );
+                }
             }
         } else {
             // Handles lower than -1000 and higher than 1000.

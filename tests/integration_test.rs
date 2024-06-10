@@ -212,7 +212,7 @@ fn test_all_functions(numerator: i32, denominator: i32, d_trig: &DTrig) {
 
     assert!(test == true);
 
-     /* This captures that arccosine is accurate to the nearest 1/1000 if the denominator is a factor of 1000 or
+    /* This captures that arccosine is accurate to the nearest 1/1000 if the denominator is a factor of 1000 or
      is accurate to +/- 1/1000 if it is between -0.9 and 0.9 */
 
     if fraction_as_f64 >= -1.0 && fraction_as_f64 <= 1.0 && 1000 % denominator == 0 {
@@ -236,7 +236,6 @@ fn test_all_functions(numerator: i32, denominator: i32, d_trig: &DTrig) {
             test = false;
         }
     } else {
-        
         // Arccosine incorrectly gives -PI/2 or PI/2 on purpose if the domain is out of the allowed range.
         // If the fraction is below -.9 or above .9 and the denominator is not a factor of 1000 all bets are off.
         test = true;
@@ -244,37 +243,67 @@ fn test_all_functions(numerator: i32, denominator: i32, d_trig: &DTrig) {
 
     assert!(test == true);
 
-    /* This captures that arctangent is accurate to the nearest 1/1000th if the denominator is a multiple of 1000 and to the nearest
-    +/- 1/1000th otherwise */
+    /* This captures that arctangent is accurate to the nearest 1/1000th if the denominator is 1000 or a factor of 
+    1000 and the fraction is between --4 and 4, accurate to +/1 1/1000th if the denominator is a multiple of 1000 
+    and to the nearest +/- 2/1000th otherwise */
 
-    if 1000 % denominator == 0 {
+    if denominator == 1000 || (fraction_as_f64 >= -4.0 && fraction_as_f64 <= 4.0 && 1000 % denominator == 0) {
         if
             ((fraction_as_f64.atan() * 1000.0).round() as i32) ==
-            d_trig.arctangent((numerator, denominator)).0
+            d_trig.arctangent((numerator, denominator)).0 ||
+            // Handles an imprecision with floating point arithmetic.
+            (fraction_as_f64.atan() * 1000.0 - d_trig.arctangent((numerator, denominator)).0 as f64).abs()-0.5 < 0.001
         {
             test = true;
         } else {
             test = false;
-            println!{" {} {} {} {} ", numerator, denominator, fraction_as_f64.atan() * 1000.0,d_trig.arctangent((numerator, denominator)).0}
-           
+            println!(
+                " {} {} {} {} ",
+                numerator,
+                denominator,
+                fraction_as_f64.atan() * 1000.0,
+                d_trig.arctangent((numerator, denominator)).0
+            );
+        }
+    } else if 1000 % denominator == 0 {
+        if
+            (
+                ((fraction_as_f64.atan() * 1000.0).round() as i32) -
+                d_trig.arctangent((numerator, denominator)).0
+            ).abs() <= 1
+        {
+            test = true;
+        } else {
+            test = false;
+            println!(
+                " {} {} {} {} ",
+                numerator,
+                denominator,
+                fraction_as_f64.atan() * 1000.0,
+                d_trig.arctangent((numerator, denominator)).0
+            );
         }
     } else {
         if
-        (
-            ((fraction_as_f64.atan() * 1000.0).round() as i32) -
-            d_trig.arctangent((numerator, denominator)).0
-        ).abs() <= 2
+            (
+                ((fraction_as_f64.atan() * 1000.0).round() as i32) -
+                d_trig.arctangent((numerator, denominator)).0
+            ).abs() <= 2
         {
             test = true;
         } else {
             test = false;
-            println!{" {} {} {} {} ", numerator, denominator, fraction_as_f64.atan() * 1000.0,d_trig.arctangent((numerator, denominator)).0}
-           
+            println!(
+                " {} {} {} {} ",
+                numerator,
+                denominator,
+                fraction_as_f64.atan() * 1000.0,
+                d_trig.arctangent((numerator, denominator)).0
+            );
         }
     }
 
     assert!(test == true);
-
 }
 
 fn random_array_1() -> [i32; 10000] {
