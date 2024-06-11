@@ -26,7 +26,8 @@ If the input for the denominator is 0 the library will give the same output as t
 # Note on Accuracy for Arcsine, Arccosine, and Arctangent
  
  - For inputs with 1000 (or a factor of 1000) in the denominator and a value between -1000/1000 and 1000/1000 (-1 and 1) the fractional result is always accurate to the nearest thousandth for arcsine, arccosine, and arctangent.
- - For arcsine and arccosine between -900/1000 and 900/1000 (-0.9 and 0.9) the result may differ up to 2/1000 in either direction with the error increasing on the nearer to -1 and 1 where the graph of those functions gets steeper (which magnifies rounding errors).
+ - For arcsine and arccosine between -900/1000 and 900/1000 (-0.9 and 0.9) the result may differ up to 2/1000 in either direction with the error increasing on the nearer to -1 and 1 where the graph of those functions gets steeper (which magnifies rounding errors). The error gets even bigger from -1 to -0.9 and 0.9 to 1.
+ - For arctangent between -4000/1000 and 4000/1000 (-4 and 4) with a denominator of 1000 the function is accurate to the nearest 1000th. For arctangent between -4 and 4 with a denominator that is a factor of 1000 it is accurate to the nearest +/- 1/1000. For an arctangent below -4 or above 4 it is accurate to the nearest +/- 2/1000. 
  - See the note below for arcsine and arccosine below -1 or above 1.
 
 # Note on Domains of Arcsine and Arccosine

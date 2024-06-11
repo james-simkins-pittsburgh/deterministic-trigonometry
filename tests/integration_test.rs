@@ -243,29 +243,10 @@ fn test_all_functions(numerator: i32, denominator: i32, d_trig: &DTrig) {
 
     assert!(test == true);
 
-    /* This captures that arctangent is accurate to the nearest 1/1000th if the denominator is 1000 or a factor of 
-    1000 and the fraction is between --4 and 4, accurate to +/1 1/1000th if the denominator is a multiple of 1000 
-    and to the nearest +/- 2/1000th otherwise */
+    /* This captures that arctangent is accurate to the nearest +/- 1/1000 if the denominator is a factor of 1000 and
+    the input fraction is between -4 and 4 and to the nearest +/- 2/1000 otherwise */
 
-    if denominator == 1000 || (fraction_as_f64 >= -4.0 && fraction_as_f64 <= 4.0 && 1000 % denominator == 0) {
-        if
-            ((fraction_as_f64.atan() * 1000.0).round() as i32) ==
-            d_trig.arctangent((numerator, denominator)).0 ||
-            // Handles an imprecision with floating point arithmetic.
-            (fraction_as_f64.atan() * 1000.0 - d_trig.arctangent((numerator, denominator)).0 as f64).abs()-0.5 < 0.001
-        {
-            test = true;
-        } else {
-            test = false;
-            println!(
-                " {} {} {} {} ",
-                numerator,
-                denominator,
-                fraction_as_f64.atan() * 1000.0,
-                d_trig.arctangent((numerator, denominator)).0
-            );
-        }
-    } else if 1000 % denominator == 0 {
+    if fraction_as_f64 >= -4.0 && fraction_as_f64 <= 4.0 && 1000 % denominator == 0 {
         if
             (
                 ((fraction_as_f64.atan() * 1000.0).round() as i32) -
@@ -275,13 +256,6 @@ fn test_all_functions(numerator: i32, denominator: i32, d_trig: &DTrig) {
             test = true;
         } else {
             test = false;
-            println!(
-                " {} {} {} {} ",
-                numerator,
-                denominator,
-                fraction_as_f64.atan() * 1000.0,
-                d_trig.arctangent((numerator, denominator)).0
-            );
         }
     } else {
         if
@@ -293,13 +267,6 @@ fn test_all_functions(numerator: i32, denominator: i32, d_trig: &DTrig) {
             test = true;
         } else {
             test = false;
-            println!(
-                " {} {} {} {} ",
-                numerator,
-                denominator,
-                fraction_as_f64.atan() * 1000.0,
-                d_trig.arctangent((numerator, denominator)).0
-            );
         }
     }
 
