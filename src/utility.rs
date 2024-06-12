@@ -1,5 +1,5 @@
 // Outputs the nearest integer fraction out of 1000 to the argument fraction.
-pub fn denominator_to_1000(argument_fraction_i32: (i32, i32)) -> i64 {
+pub (in super) fn denominator_to_1000(argument_fraction_i32: (i32, i32)) -> i64 {
     let argument_fraction = (
         i64::from(argument_fraction_i32.0),
         i64::from(argument_fraction_i32.1),
@@ -53,7 +53,7 @@ pub fn denominator_to_1000(argument_fraction_i32: (i32, i32)) -> i64 {
 
 // Normalizes angles to 0 to 6282 thousandth radians
 
-pub fn normalize_angle(thousandth_angle: i64) -> i64 {
+pub (in super) fn normalize_angle(thousandth_angle: i64) -> i64 {
     let mut return_angle = thousandth_angle;
 
     // Handles the case in which the angle is greater than or equal to 2 pi radians.

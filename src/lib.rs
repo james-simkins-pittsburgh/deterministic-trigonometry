@@ -1,3 +1,13 @@
+#![warn(missing_docs)]
+
+//! Deterministic trigonometry across architectures without using floating point arithmetic.
+//! 
+//! - Uses (i32, i32) tuples to represent fractions. 
+//! - Uses pre-baked arrays for trigonometry results. 
+//! - Deterministic across compilers and computer architectures. 
+//! - Introduces imprecision due to rounding errors. 
+//! - Most likely to be useful for games that depend on lockstep determinism.
+
 /* This is the main struct of the library. The data holds a bunch of tables of pre-calculated trig results. The precalculation
 avoids that potential problem of different results across architectures. */
 pub struct DTrig {
