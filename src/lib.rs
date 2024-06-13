@@ -1,4 +1,4 @@
-#![warn(missing_docs)]
+// #![warn(missing_docs)]
 
 //! Deterministic trigonometry across architectures without using floating point arithmetic.
 //! 
@@ -7,9 +7,49 @@
 //! - Deterministic across compilers and computer architectures. 
 //! - Introduces imprecision due to rounding errors. 
 //! - Most likely to be useful for games that depend on lockstep determinism.
+//! 
+//! # Example
+//! 
+//! ```
+//! use deterministic_trigonometry::DTrig;
+//!
+//! fn main (){
+//!
+//! let d_trig = DTrig::initialize();
+//!
+//! let sine_of_pi_over_three = d_trig.sine((1047,1000));
+//!
+//! println!("The sine of 1047/1000 radians is {}/{}.", sine_of_pi_over_three.0, sine_of_pi_over_three.1); 
+//! 
+//! }
 
-/* This is the main struct of the library. The data holds a bunch of tables of pre-calculated trig results. The precalculation
-avoids that potential problem of different results across architectures. */
+/// Main struct through which trig functions are implemented.
+/// 
+/// Once this struct is initialized, it holds arrays with pre-baked trig functions. 
+/// Trig functions are called as methods with the input as (i32 , i32) tuples with 
+/// the first i32 representing the numerator an the second i32 representing the denominator.
+/// 
+/// The output is also a (i32 , i32) tuple with the first i32 representing the numerator 
+/// and the second i32 representing the denominator. The denominator will always be 1000.
+/// 
+/// # Example
+/// 
+/// ```
+/// use deterministic_trigonometry::DTrig;
+///
+/// fn main (){
+///
+/// let d_trig = DTrig::initialize();
+///
+/// let sine_of_pi_over_four = d_trig.sine((785,1000));
+///
+/// println!("The sine of 785/1000 radians is {}/{}.", sine_of_pi_over_four.0, sine_of_pi_over_four.1); 
+/// 
+/// }
+///
+/// ```
+///
+
 pub struct DTrig {
     sine_array: [i16; 6283],
     cosine_array: [i16; 6283],
