@@ -1,15 +1,15 @@
 // #![warn(missing_docs)]
 
 //! Deterministic trigonometry across architectures without using floating point arithmetic.
-//! 
-//! - Uses (i32, i32) tuples to represent fractions. 
-//! - Uses pre-baked arrays for trigonometry results. 
-//! - Deterministic across compilers and computer architectures. 
-//! - Introduces imprecision due to rounding errors. 
+//!
+//! - Uses (i32, i32) tuples to represent fractions.
+//! - Uses pre-baked arrays for trigonometry results.
+//! - Deterministic across compilers and computer architectures.
+//! - Introduces imprecision due to rounding errors.
 //! - Most likely to be useful for games that depend on lockstep determinism.
-//! 
+//!
 //! # Example
-//! 
+//!
 //! ```
 //! use deterministic_trigonometry::DTrig;
 //!
@@ -19,21 +19,24 @@
 //!
 //! let sine_of_pi_over_three = d_trig.sine((1047,1000));
 //!
-//! println!("The sine of 1047/1000 radians is {}/{}.", sine_of_pi_over_three.0, sine_of_pi_over_three.1); 
-//! 
+//! println!("The sine of 1047/1000 radians is {}/{}.", sine_of_pi_over_three.0, sine_of_pi_over_three.1);
+//!
 //! }
+//!
+//! ```
+//!
 
 /// Main struct through which trig functions are implemented.
-/// 
-/// Once this struct is initialized, it holds arrays with pre-baked trig functions. 
-/// Trig functions are called as methods with the input as (i32 , i32) tuples with 
+///
+/// Once this struct is initialized, it holds arrays with pre-baked trig functions.
+/// Trig functions are called as methods with the input as (i32 , i32) tuples with
 /// the first i32 representing the numerator an the second i32 representing the denominator.
-/// 
-/// The output is also a (i32 , i32) tuple with the first i32 representing the numerator 
+///
+/// The output is also a (i32 , i32) tuple with the first i32 representing the numerator
 /// and the second i32 representing the denominator. The denominator will always be 1000.
-/// 
+///
 /// # Example
-/// 
+///
 /// ```
 /// use deterministic_trigonometry::DTrig;
 ///
@@ -43,8 +46,8 @@
 ///
 /// let sine_of_pi_over_four = d_trig.sine((785,1000));
 ///
-/// println!("The sine of 785/1000 radians is {}/{}.", sine_of_pi_over_four.0, sine_of_pi_over_four.1); 
-/// 
+/// println!("The sine of 785/1000 radians is {}/{}.", sine_of_pi_over_four.0, sine_of_pi_over_four.1);
+///
 /// }
 ///
 /// ```
@@ -72,6 +75,30 @@ pub mod utility;
 
 // These functions pull the appropriate results out of the arrays.
 impl DTrig {
+    /// Calculates the sine of an angle in radians.
+    ///
+    /// - The input tuple represents the angle as a numerator and denominator.
+    /// - The output tuple represents the sine as a numerator and denominator.
+    /// - Most accurate between 0 and 2 PI with a factor of 1000 as denominator.
+    /// - See README for limitations on accuracy.
+    /// 
+    /// # Example
+    ///
+    /// ```
+    /// use deterministic_trigonometry::DTrig;
+    ///
+    /// fn main (){
+    ///
+    /// let d_trig = DTrig::initialize();
+    ///
+    /// let sine_of_pi_over_four = d_trig.sine((785,1000));
+    ///
+    /// println!("The sine of 785/1000 radians is {}/{}.", sine_of_pi_over_four.0, sine_of_pi_over_four.1);
+    ///
+    /// }
+    ///
+    /// ```
+
     pub fn sine(&self, argument_fraction: (i32, i32)) -> (i32, i32) {
         return (
             i32::from(
