@@ -112,6 +112,29 @@ impl DTrig {
             1000,
         );
     }
+    /// Calculates the cosine of an angle in radians.
+    ///
+    /// - The input tuple represents the angle as a numerator and denominator.
+    /// - The output tuple represents the sine as a numerator and denominator.
+    /// - Most accurate between 0 and 2 PI with a factor of 1000 as denominator.
+    /// - See README for limitations on accuracy.
+    /// 
+    /// # Example
+    ///
+    /// ```
+    /// use deterministic_trigonometry::DTrig;
+    ///
+    /// fn main (){
+    ///
+    /// let d_trig = DTrig::initialize();
+    ///
+    /// let cosine_of_pi_over_four = d_trig.cosine((785,1000));
+    ///
+    /// println!("The cosine of 785/1000 radians is {}/{}.", cosine_of_pi_over_four.0, cosine_of_pi_over_four.1);
+    ///
+    /// }
+    ///
+    /// ```
 
     pub fn cosine(&self, argument_fraction: (i32, i32)) -> (i32, i32) {
         return (
