@@ -150,6 +150,31 @@ impl DTrig {
         );
     }
 
+    /// Calculates the tangent of an angle in radians.
+    ///
+    /// - The input tuple represents the angle as a numerator and denominator.
+    /// - The output tuple represents the tangent as a numerator and denominator.
+    /// - Most accurate between 0 and 2 PI with a factor of 1000 as denominator.
+    /// - Can have large errors around asymptote lines for the tangent function.
+    /// - See README for limitations on accuracy.
+    /// 
+    /// # Example
+    ///
+    /// ```
+    /// use deterministic_trigonometry::DTrig;
+    ///
+    /// fn main (){
+    ///
+    /// let d_trig = DTrig::initialize();
+    ///
+    /// let tangent_of_pi_over_four = d_trig.tangent((785,1000));
+    ///
+    /// println!("The tangent of 785/1000 radians is {}/{}.", tangent_of_pi_over_four.0, tangent_of_pi_over_four.1);
+    ///
+    /// }
+    ///
+    /// ```
+
     pub fn tangent(&self, argument_fraction: (i32, i32)) -> (i32, i32) {
         return (
             self.tangent_array
