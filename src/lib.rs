@@ -187,6 +187,30 @@ impl DTrig {
         );
     }
 
+    /// Performs arcsine on a value to produce the measure of the corresponding angle in radians
+    ///
+    /// - The input tuple represents the value as a numerator and denominator.
+    /// - The output tuple represents the angle in radians as a numerator and denominator.
+    /// - Most accurate with a factor of 1000 as denominator.
+    /// - Arcsine inputs below -1 and above 1 return as -1571/1000 (-PI/2) and 1571/1000 (PI/2) when that is really mathematically undefined
+    /// - See README for detailed limitations on accuracy.
+    /// # Example
+    ///
+    /// ```
+    /// use deterministic_trigonometry::DTrig;
+    ///
+    /// fn main (){
+    ///
+    /// let d_trig = DTrig::initialize();
+    ///
+    /// let arcsine_of_one_half = d_trig.arcsine((500,1000));
+    ///
+    /// println!("The arcsine of 500/1000 radians is {}/{}.", arcsine_of_one_half.0, arcsine_of_one_half.1);
+    ///
+    /// }
+    ///
+    /// ```
+
     pub fn arcsine(&self, argument_fraction: (i32, i32)) -> (i32, i32) {
         if utility::denominator_to_1000(argument_fraction) < -1000 {
             return (-1571, 1000);
