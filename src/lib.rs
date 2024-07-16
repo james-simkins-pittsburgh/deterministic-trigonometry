@@ -1,4 +1,4 @@
-// #![warn(missing_docs)]
+#![warn(missing_docs)]
 
 //! Deterministic trigonometry across architectures without using floating point arithmetic.
 //!
@@ -67,10 +67,10 @@ pub struct DTrig {
     arctangent_ones: [i16; 2001],
 }
 
-// This module contains the code that sets the values for the arrays from the pre-baked tables.
+/// This module contains the code that sets the values for the arrays from the pre-baked tables.
 pub mod initialize;
 
-// This module contains utility functions.
+/// This module contains utility functions.
 pub mod utility;
 
 // These functions pull the appropriate results out of the arrays.
@@ -266,6 +266,29 @@ impl DTrig {
             );
         }
     }
+
+    /// Performs arctangent on a value to produce the measure of the corresponding angle in radians
+    ///
+    /// - The input tuple represents the value as a numerator and denominator.
+    /// - The output tuple represents the angle in radians as a numerator and denominator.
+    /// - Most accurate with a factor of 1000 as denominator.
+    /// - See README for detailed limitations on accuracy.
+    /// # Example
+    ///
+    /// ```
+    /// use deterministic_trigonometry::DTrig;
+    ///
+    /// fn main (){
+    ///
+    /// let d_trig = DTrig::initialize();
+    ///
+    /// let arctangent_of_one_half = d_trig.arctangent((500,1000));
+    ///
+    /// println!("The arctangent of 500/1000 radians is {}/{}.", arccosine_of_one_half.0, arccosine_of_one_half.1);
+    ///
+    /// }
+    ///
+    /// ```
 
     pub fn arctangent(&self, argument_fraction: (i32, i32)) -> (i32, i32) {
         // Converts the numerator to what it would be out of 1000.

@@ -2,6 +2,30 @@
 architectures */
 
 impl crate::DTrig {
+
+/// Initializes the Dtrig struct 
+/// 
+/// - Must be used to set the state of the Dtrig struct.
+/// - Writes the pre-baked trig tables in system memory.
+/// 
+/// # Example
+///
+/// ```
+/// use deterministic_trigonometry::DTrig;
+///
+/// fn main (){
+///
+/// let d_trig = DTrig::initialize();
+///
+/// let sine_of_pi_over_three = d_trig.sine((1047,1000));
+///
+/// println!("The sine of 1047/1000 radians is {}/{}.", sine_of_pi_over_three.0, sine_of_pi_over_three.1);
+///
+/// }
+///
+/// ```
+///
+
     pub fn initialize() -> Self {
         return crate::DTrig {
             sine_array: {
