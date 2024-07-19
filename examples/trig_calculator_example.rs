@@ -2,7 +2,7 @@ use std::io;
 use deterministic_trigonometry::DTrig;
 
 fn main() {
-    // This initializes the DTrig struct which writes the prebaked trig tables into memmory.
+    // This initializes the DTrig struct which writes the pre-baked trig tables into memory.
     let d_trig = DTrig::initialize();
 
     // This variable allows the main loop to exit.
@@ -10,7 +10,7 @@ fn main() {
 
     // This is the main loop
     while continue_running == true {
-        println!("Welcome to the trignonometry calculator!");
+        println!("Welcome to the trigonometry calculator!");
         println!("");
 
         // This takes a code for the trig function and the input value from the user.

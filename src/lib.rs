@@ -204,7 +204,7 @@ impl DTrig {
     /// 
     /// - A zero as the input for the denominator.
     /// - Inputs representing a fractions with a value greater than 1 or less than -1.
-    /// - This is out of the mathematically defined domainor the arcsine function.
+    /// - This is out of the mathematically defined denominator the arcsine function.
     /// 
     /// # Example
     ///

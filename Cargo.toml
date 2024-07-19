@@ -2,6 +2,12 @@
 name = "deterministic-trigonometry"
 version = "0.1.0"
 edition = "2021"
+description = "Trigonometry without floating point variables to achieve deterministic results across hardware and compilers"
+license = "MIT OR Apache-2.0"
+categories = ["game-development", "mathematics"]
+keywords = ["deterministic", "trigonometry", "lockstep"]
+repository = "https://github.com/james-simkins-pittsburgh/deterministic-trigonometry"
+
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

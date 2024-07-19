@@ -1,11 +1,11 @@
-/*  This module contains the initialize function, which writes the pre-baked trignometry arrays into RAM. This uses 
+/*  This module contains the initialize function, which writes the pre-baked trigonometry arrays into RAM. This uses 
 around 90 KB of RAM. */
 
 impl crate::DTrig {
     /// Initializes the Dtrig struct.
     ///
     /// - Must be used before any other Dtrig functions are used.
-    /// - Writes the pre-baked trignometry tables into RAM.
+    /// - Writes the pre-baked trigonometry tables into RAM.
     ///
     /// # Example
     ///

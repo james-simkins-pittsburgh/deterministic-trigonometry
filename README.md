@@ -29,7 +29,7 @@ For a more complex example, see the examples folder in the source code.
 ## List of Functions
 
 The library has an initialize() function that must be run when the DTrig struct is instantiated
-and the six trignometry and inverse trigonmetry functions:
+and the six trigonometry and inverse trigonometry functions:
 
 ```rust
 
