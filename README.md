@@ -1,18 +1,19 @@
 # deterministic-trigonometry
-
-This library is currently being written and is not in a usable state!
  
-This library will do basic trigonometry calculations without using any floating-point arithmetic. 
+This library does basic trigonometry calculations without using any floating-point arithmetic.
 
-This library, once completed, will mainly be useful for trigonometry for simulations within games that use lockstep determinism and therefore wish to avoid the indeterminism that comes with using floating point arithmetic across different architectures. This library will avoid that problem by using only integer data types internally.
+This determinism is intended to be useful for games that use lockstep determinism and therefore wish to avoid the indeterminism that comes with using floating point arithmetic across different architectures. This library avoids that problem by using only integer data types internally. However, this comes at the cost of imprecision from rounding errors.
 
-Trigonometry will be accomplished by having pre-baked tables of trigonometry results that are written into the code itself.
+Trigonometry is accomplished by using pre-baked tables of trigonometry results that are written into the code itself. It support sine, cosine, tangent, arcsine, arccosine, and arctangent.
 
-This library will be useful to someone making a simulation in which a small loss of precision is worth having exactly reproducible results across different architectures. For now, it will support sine, cosine, tangent, arcsine, arccosine, and arctangent.
+Input is a (i32, i32) tuple representing the numerator and denominator of a fraction in radians for sine, cosine, and tangent or as a plain fraction for arcsine, arccosine, and arctangent. Output is returned as a numerator and denominator tuple (i32,i32). The output denominator is always 1000 to allow easy conversion to fixed point decimals.
 
-Input will be given as an (i32, i32) tuple representing the numerator and denominator of a fraction in radians for sine, cosine, and tangent or as a plain fraction for arcsine, arccosine, and arctangent. All results are returned as a numerator and denominator tuple (i32,i32). The output denominator is always 1000 to allow easy conversion to fixed point decimals.
+# Panics
 
-If the input for the denominator is 0 the library will give the same output as the input (i32::MIN, 1) if the numerator is less than 0 or the same output as the input (i32:MAX, 1) otherwise. If detecting 0 denominator errors is desirable for your use case, this feature should be implemented in your code.
+ - Denominator inputs of 0 panic as this is undefined.
+ - Arcsine inputs below -1 and above 1 panic as this is undefined.
+ - Arccosine inputs below -1 and above 1 panic as this is undefined.
+ - If it is important that your code handles these errors gracefully, this is should be implemented in your code.
 
 # Note on Accuracy for Sine, Cosine, and Tangent
 
@@ -29,9 +30,3 @@ If the input for the denominator is 0 the library will give the same output as t
  - For arctangent between -4000/1000 and 4000/1000 (-4 and 4) with a denominator that is a factor of 1000 the result may differ by
  up to 1/1000 in either direction. Otherwise, the result may differ by 2/1000 in either direction. 
  - See the note below for arcsine and arccosine below -1 or above 1.
-
-# Note on Domains of Arcsine and Arccosine
-
- - Arcsine inputs below -1 and above 1 return as -1571/1000 (-PI/2) and 1571/1000 (PI/2) when that is really mathematically undefined.
- - Arccosine inputs below -1 and above 1 return as 3142/1000 (PI) and 0/1000 when that is really mathematically undefined.
- - This decision made to allow for ease of use. If it is important to detect invalid inputs outside of the true domain for arcsine and arccosine, this error detection should be implemented within the code that is using this library.

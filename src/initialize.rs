@@ -1,30 +1,27 @@
-/*  This module builds the trigonometry tables that allow for deterministic results across different
-architectures */
+/*  This module contains the initialize function, which writes the pre-baked trignometry arrays into RAM. This uses 
+around 90 KB of RAM. */
 
 impl crate::DTrig {
-
-/// Initializes the Dtrig struct 
-/// 
-/// - Must be used to set the state of the Dtrig struct.
-/// - Writes the pre-baked trig tables in system memory.
-/// 
-/// # Example
-///
-/// ```
-/// use deterministic_trigonometry::DTrig;
-///
-/// fn main (){
-///
-/// let d_trig = DTrig::initialize();
-///
-/// let sine_of_pi_over_three = d_trig.sine((1047,1000));
-///
-/// println!("The sine of 1047/1000 radians is {}/{}.", sine_of_pi_over_three.0, sine_of_pi_over_three.1);
-///
-/// }
-///
-/// ```
-///
+    /// Initializes the Dtrig struct.
+    ///
+    /// - Must be used before any other Dtrig functions are used.
+    /// - Writes the pre-baked trignometry tables into RAM.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use deterministic_trigonometry::DTrig;
+    ///
+    /// fn main (){
+    ///
+    /// let d_trig = DTrig::initialize();
+    ///
+    /// let sine_of_pi_over_three = d_trig.sine((1047,1000));
+    ///
+    /// println!("The sine of 1047/1000 radians is {}/{}.", sine_of_pi_over_three.0, sine_of_pi_over_three.1);
+    ///
+    /// }
+    /// ```
 
     pub fn initialize() -> Self {
         return crate::DTrig {

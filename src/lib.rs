@@ -22,9 +22,7 @@
 //! println!("The sine of 1047/1000 radians is {}/{}.", sine_of_pi_over_three.0, sine_of_pi_over_three.1);
 //!
 //! }
-//!
 //! ```
-//!
 
 /// Main struct through which trig functions are implemented.
 ///
@@ -33,7 +31,7 @@
 /// the first i32 representing the numerator an the second i32 representing the denominator.
 ///
 /// The output is also a (i32 , i32) tuple with the first i32 representing the numerator
-/// and the second i32 representing the denominator. The denominator will always be 1000.
+/// and the second i32 representing the denominator. The output denominator will always be 1000.
 ///
 /// # Example
 ///
@@ -49,18 +47,15 @@
 /// println!("The sine of 785/1000 radians is {}/{}.", sine_of_pi_over_four.0, sine_of_pi_over_four.1);
 ///
 /// }
-///
 /// ```
-///
 
+// Array sizes are set to balance accuracy with memory usage.
 pub struct DTrig {
     sine_array: [i16; 6283],
     cosine_array: [i16; 6283],
     tangent_array: [i32; 6283],
     arcsine_array: [i16; 2001],
     arccosine_array: [i16; 2001],
-    /* Size of arctangent arrays is set based on the minimum spacing needed to give
-    thousandths place accuracy. */
     arctangent_thousandths: [i16; 8001],
     arctangent_hundredths: [i16; 4001],
     arctangent_tenths: [i16; 2001],
