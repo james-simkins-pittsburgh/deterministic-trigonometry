@@ -4,7 +4,7 @@ This library provides basic trigonometry functions without using any floating po
 
 This library is intended to be useful for games that use lockstep determinism and therefore wish to avoid the indeterminism that comes with using floating point arithmetic across different hardware or compilers. This library avoids these tiny inconsistencies by using only integer data types internally. Therefore, this library should produce exactly reproducible results regardless of the compiler or hardware used. However, this comes at the cost of imprecision because of compounded rounding errors. (Note: This imprecision is still 100% consistent and reproducible so it won't break determinism.)
 
-Trigonometry is accomplished by using pre-baked tables of trigonometry results that are written into the code itself and then written into memory with an initialize() function. This library support sine, cosine, tangent, arcsine, arccosine, and arctangent.
+Trigonometry is accomplished by using pre-baked tables of trigonometry results that are written into the code itself and then written into memory with an initialize() function. This library supports sine, cosine, tangent, arcsine, arccosine, and arctangent.
 
 Provide input as a (i32, i32) tuple corresponding to the numerator and denominator of the input represented as a fraction. All angle measurements are in radians. Output is returned as a tuple (i32,i32) representing a fractional output. The output denominator is always 1000 to allow easy conversion to fixed point decimals.
 
@@ -30,15 +30,15 @@ For a more complex example, see the examples folder in the source code.
 
  - Denominator inputs of 0 panic as division by 0 is undefined.
  - Arcsine inputs below -1 and above 1 panic as this is mathematically undefined for arcsine.
- - Arccosine inputs below -1 and above 1 panic as this is mathematicall undefined for arccosine.
- - If it is important that your code handles these errors gracefully, this is should be implemented in your code.
+ - Arccosine inputs below -1 and above 1 panic as this is mathematically undefined for arccosine.
+ - If it is important that your code handles these errors gracefully, this should be implemented in your code.
 
 # Note on Accuracy for Sine, Cosine, and Tangent
 
  - For inputs with 1000 (or a factor of 1000) as the denominator and a value between 0/1000 and 6283/1000 (0 and 2 PI) the fractional result is always accurate to the nearest thousandth.
- - For inputs that are fractions with values above 6283/1000, negative fraction, and/or fractions with denominators that are not factor of 2, the results are usually accurate to the nearest thousandth but may sometimes differ by up to 1/1000 in either direction because of double rounding.
- - Much bigger differences occur when double rounding is combined with values very close to the asymptote of tangent at multiples of PI 
- away from PI/2 in either direction. This is because small rounding error are amplified by the behavior of the tangent function approaching positive or negative infinity. This is not a problem between 0 and 2 PI. 
+ - For inputs that are fractions with values above 6283/1000, negative fractions, and/or fractions with denominators that are not a factor of 2, the results are usually accurate to the nearest thousandth but may sometimes differ by up to 1/1000 in either direction because of double rounding.
+ - Much bigger differences occur when double rounding is combined with values very close to the asymptote of the tangent at multiples of PI 
+ away from PI/2 in either direction. This is because small rounding errors are amplified by the behavior of the tangent function approaching positive or negative infinity. This is not a problem between 0 and 2 PI. 
  - If accuracy is important, check the integration tests for each function to verify their accuracy or construct your own tests.
 
 # Note on Accuracy for Arcsine, Arccosine, and Arctangent
