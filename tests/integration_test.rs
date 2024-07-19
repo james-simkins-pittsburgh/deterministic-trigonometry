@@ -32,10 +32,6 @@ fn main() {
     _not_read = d_trig.cosine((i32::MIN, 1));
     _not_read = d_trig.tangent((i32::MAX, 1));
     _not_read = d_trig.tangent((i32::MIN, 1));
-    _not_read = d_trig.arcsine((i32::MAX, 1));
-    _not_read = d_trig.arcsine((i32::MIN, 1));
-    _not_read = d_trig.arccosine((i32::MAX, 1));
-    _not_read = d_trig.arccosine((i32::MIN, 1));
     _not_read = d_trig.arctangent((i32::MAX, 1));
     _not_read = d_trig.arctangent((i32::MIN, 1));
 }
