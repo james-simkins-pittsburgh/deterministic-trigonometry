@@ -67,7 +67,7 @@ pub struct DTrig {
 pub mod initialize;
 
 /// This module contains utility functions.
-pub mod utility;
+pub (self) mod utility;
 
 // These functions pull the appropriate results out of the arrays.
 impl DTrig {
