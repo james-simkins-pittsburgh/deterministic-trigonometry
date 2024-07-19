@@ -50,6 +50,7 @@
 /// ```
 
 // Array sizes are set to balance accuracy with memory usage.
+
 pub struct DTrig {
     sine_array: [i16; 6283],
     cosine_array: [i16; 6283],
@@ -73,10 +74,10 @@ impl DTrig {
     /// Calculates the sine of an angle in radians.
     ///
     /// - The input tuple represents the angle as a numerator and denominator.
-    /// - The output tuple represents the sine as a numerator and denominator.
+    /// - The output tuple represents the sine result as a numerator and denominator.
     /// - Most accurate between 0 and 2 PI with a factor of 1000 as denominator.
     /// - See README for limitations on accuracy.
-    /// 
+    ///
     /// # Example
     ///
     /// ```
@@ -91,7 +92,6 @@ impl DTrig {
     /// println!("The sine of 785/1000 radians is {}/{}.", sine_of_pi_over_four.0, sine_of_pi_over_four.1);
     ///
     /// }
-    ///
     /// ```
 
     pub fn sine(&self, argument_fraction: (i32, i32)) -> (i32, i32) {
@@ -109,11 +109,11 @@ impl DTrig {
     }
     /// Calculates the cosine of an angle in radians.
     ///
-    /// - The input tuple represents the angle as a numerator and denominator.
-    /// - The output tuple represents the sine as a numerator and denominator.
+    /// - The input tuple represents the input angle as a numerator and denominator.
+    /// - The output tuple represents the cosine result as a numerator and denominator.
     /// - Most accurate between 0 and 2 PI with a factor of 1000 as denominator.
     /// - See README for limitations on accuracy.
-    /// 
+    ///
     /// # Example
     ///
     /// ```
@@ -147,12 +147,12 @@ impl DTrig {
 
     /// Calculates the tangent of an angle in radians.
     ///
-    /// - The input tuple represents the angle as a numerator and denominator.
-    /// - The output tuple represents the tangent as a numerator and denominator.
+    /// - The input tuple represents the input angle as a numerator and denominator.
+    /// - The output tuple represents the tangent result as a numerator and denominator.
     /// - Most accurate between 0 and 2 PI with a factor of 1000 as denominator.
     /// - Can have large errors around asymptote lines for the tangent function.
     /// - See README for limitations on accuracy.
-    /// 
+    ///
     /// # Example
     ///
     /// ```
@@ -167,7 +167,6 @@ impl DTrig {
     /// println!("The tangent of 785/1000 radians is {}/{}.", tangent_of_pi_over_four.0, tangent_of_pi_over_four.1);
     ///
     /// }
-    ///
     /// ```
 
     pub fn tangent(&self, argument_fraction: (i32, i32)) -> (i32, i32) {
@@ -182,10 +181,10 @@ impl DTrig {
         );
     }
 
-    /// Performs arcsine on a value to produce the measure of the corresponding angle in radians
+    /// Performs arcsine on a value to produce the measure of the corresponding angle in radians.
     ///
-    /// - The input tuple represents the value as a numerator and denominator.
-    /// - The output tuple represents the angle in radians as a numerator and denominator.
+    /// - The input tuple represents the input value as a numerator and denominator.
+    /// - The output tuple represents the angle result in radians as a numerator and denominator.
     /// - Most accurate with a factor of 1000 as denominator.
     /// - Arcsine inputs below -1 and above 1 return as -1571/1000 (-PI/2) and 1571/1000 (PI/2) when that is really mathematically undefined
     /// - See README for detailed limitations on accuracy.
@@ -203,7 +202,6 @@ impl DTrig {
     /// println!("The arcsine of 500/1000 radians is {}/{}.", arcsine_of_one_half.0, arcsine_of_one_half.1);
     ///
     /// }
-    ///
     /// ```
 
     pub fn arcsine(&self, argument_fraction: (i32, i32)) -> (i32, i32) {
@@ -224,8 +222,8 @@ impl DTrig {
 
     /// Performs arccosine on a value to produce the measure of the corresponding angle in radians
     ///
-    /// - The input tuple represents the value as a numerator and denominator.
-    /// - The output tuple represents the angle in radians as a numerator and denominator.
+    /// - The input tuple represents the input value as a numerator and denominator.
+    /// - The output tuple represents the angle result in radians as a numerator and denominator.
     /// - Most accurate with a factor of 1000 as denominator.
     /// - Arccosine inputs below -1 and above 1 return as 3142/1000 (PI) and 0/1000 (0) when that is really mathematically undefined
     /// - See README for detailed limitations on accuracy.
@@ -243,7 +241,6 @@ impl DTrig {
     /// println!("The arccosine of 500/1000 radians is {}/{}.", arccosine_of_one_half.0, arccosine_of_one_half.1);
     ///
     /// }
-    ///
     /// ```
 
     pub fn arccosine(&self, argument_fraction: (i32, i32)) -> (i32, i32) {
@@ -264,8 +261,8 @@ impl DTrig {
 
     /// Performs arctangent on a value to produce the measure of the corresponding angle in radians
     ///
-    /// - The input tuple represents the value as a numerator and denominator.
-    /// - The output tuple represents the angle in radians as a numerator and denominator.
+    /// - The input tuple represents the input value as a numerator and denominator.
+    /// - The output tuple represents the angle result in radians as a numerator and denominator.
     /// - Most accurate with a factor of 1000 as denominator.
     /// - See README for detailed limitations on accuracy.
     /// # Example
@@ -324,7 +321,7 @@ impl DTrig {
                 }
             }
         } else if numerator_out_of_1000 >= -100000 && numerator_out_of_1000 <= 100000 {
-            // Handles from -100 to 1000
+            // Handles from -100 to 100
             if (numerator_out_of_1000 % 100).abs() < 50 {
                 return (
                     i32::from(
