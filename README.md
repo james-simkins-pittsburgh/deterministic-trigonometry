@@ -35,12 +35,12 @@ and the six trignometry and inverse trigonmetry functions:
 
 let d_trig = DTrig::initialize();
 
-sine_of_one_half = d.trig.sine((500,1000));
-cosine_of_one_half = d.trig.cosine((500,1000));
-tangent_of_one_half = d.trig.tangent((500,1000));
-arcsine_of_one_half = d.trig.arcsine((500,1000));
-arccosine_of_one_half = d.trig.arccosine((500,1000));
-arctangent_of_one_half = d.trig.arctangent((500,1000));
+let sine_of_one_half = d.trig.sine((500,1000));
+let cosine_of_one_half = d.trig.cosine((500,1000));
+let tangent_of_one_half = d.trig.tangent((500,1000));
+let arcsine_of_one_half = d.trig.arcsine((500,1000));
+let arccosine_of_one_half = d.trig.arccosine((500,1000));
+let arctangent_of_one_half = d.trig.arctangent((500,1000));
 
 ```
 
