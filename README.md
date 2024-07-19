@@ -1,18 +1,36 @@
 # deterministic-trigonometry
  
-This library does basic trigonometry calculations without using any floating point arithmetic.
+This library provides basic trigonometry functions without using any floating point arithmetic.
 
-This determinism is intended to be useful for games that use lockstep determinism and therefore wish to avoid the indeterminism that comes with using floating point arithmetic across different architectures. This library avoids that problem by using only integer data types internally. However, this comes at the cost of imprecision because of compounded rounding errors.
+This library is intended to be useful for games that use lockstep determinism and therefore wish to avoid the indeterminism that comes with using floating point arithmetic across different hardware or compilers. This library avoids these tiny inconsistencies by using only integer data types internally. Therefore, this library should produce exactly reproducible results regardless of the compiler or hardware used. However, this comes at the cost of imprecision because of compounded rounding errors. (Note: This imprecision is still 100% consistent and reproducible so it won't break determinism.)
 
-Trigonometry is accomplished by using pre-baked tables of trigonometry results that are written into the code itself. It support sine, cosine, tangent, arcsine, arccosine, and arctangent.
+Trigonometry is accomplished by using pre-baked tables of trigonometry results that are written into the code itself and then written into memory with an initialize() function. This library support sine, cosine, tangent, arcsine, arccosine, and arctangent.
 
-Input is a (i32, i32) tuple representing the numerator and denominator of the input as a fraction. All angle measurements are in radians. Output is returned as a numerator and denominator tuple (i32,i32). The output denominator is always 1000 to allow easy conversion to fixed point decimals.
+Provide input as a (i32, i32) tuple corresponding to the numerator and denominator of the input represented as a fraction. All angle measurements are in radians. Output is returned as a tuple (i32,i32) representing a fractional output. The output denominator is always 1000 to allow easy conversion to fixed point decimals.
+
+# Basic Example
+
+```rust
+use deterministic_trigonometry::DTrig;
+
+fn main (){
+
+let d_trig = DTrig::initialize();
+
+let arctangent_of_one_half = d_trig.arctangent((500,1000));
+ 
+println!("The arctangent of 500/1000 radians is {}/{}.", arctangent_of_one_half.0, arctangent_of_one_half.1);
+
+}
+```
+
+For a more complex example, see the examples folder in the source code.
 
 # Things that Cause the Library to Panic
 
  - Denominator inputs of 0 panic as division by 0 is undefined.
- - Arcsine inputs below -1 and above 1 panic as this is undefined for arcsine.
- - Arccosine inputs below -1 and above 1 panic as this is undefined for arccosine.
+ - Arcsine inputs below -1 and above 1 panic as this is mathematically undefined for arcsine.
+ - Arccosine inputs below -1 and above 1 panic as this is mathematicall undefined for arccosine.
  - If it is important that your code handles these errors gracefully, this is should be implemented in your code.
 
 # Note on Accuracy for Sine, Cosine, and Tangent
