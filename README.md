@@ -1,4 +1,4 @@
-# deterministic-trigonometry
+## deterministic-trigonometry
  
 This library provides basic trigonometry functions without using any floating point arithmetic.
 
@@ -8,7 +8,7 @@ Trigonometry is accomplished by using pre-baked tables of trigonometry results t
 
 Provide input as a (i32, i32) tuple corresponding to the numerator and denominator of the input represented as a fraction. All angle measurements are in radians. Output is returned as a tuple (i32,i32) representing a fractional output. The output denominator is always 1000 to allow easy conversion to fixed point decimals.
 
-# Basic Example
+## Basic Example
 
 ```rust
 use deterministic_trigonometry::DTrig;
@@ -26,14 +26,14 @@ println!("The arctangent of 500/1000 radians is {}/{}.", arctangent_of_one_half.
 
 For a more complex example, see the examples folder in the source code.
 
-# Things that Cause the Library to Panic
+## Things that Cause the Library to Panic
 
  - Denominator inputs of 0 panic as division by 0 is undefined.
  - Arcsine inputs below -1 and above 1 panic as this is mathematically undefined for arcsine.
  - Arccosine inputs below -1 and above 1 panic as this is mathematically undefined for arccosine.
  - If it is important that your code handles these errors gracefully, this should be implemented in your code.
 
-# Note on Accuracy for Sine, Cosine, and Tangent
+## Note on Accuracy for Sine, Cosine, and Tangent
 
  - For inputs with 1000 (or a factor of 1000) as the denominator and a value between 0/1000 and 6283/1000 (0 and 2 PI) the fractional result is always accurate to the nearest thousandth.
  - For inputs that are fractions with values above 6283/1000, negative fractions, and/or fractions with denominators that are not a factor of 2, the results are usually accurate to the nearest thousandth but may sometimes differ by up to 1/1000 in either direction because of double rounding.
@@ -41,7 +41,7 @@ For a more complex example, see the examples folder in the source code.
  away from PI/2 in either direction. This is because small rounding errors are amplified by the behavior of the tangent function approaching positive or negative infinity. This is not a problem between 0 and 2 PI. 
  - If accuracy is important, check the integration tests for each function to verify their accuracy or construct your own tests.
 
-# Note on Accuracy for Arcsine, Arccosine, and Arctangent
+## Note on Accuracy for Arcsine, Arccosine, and Arctangent
  
  - For arcsine and arccosine inputs with 1000 (or a factor of 1000) in the denominator the fractional result is always accurate to the nearest thousandth.
  - For arcsine and arccosine with inputs between -0.9 and 0.9 and a denominator that is not a factor of 1000 the result may differ up to 2/1000 in either direction with the error increasing nearer to -0.9 and 0.9 where the graph of those functions gets steeper (which magnifies rounding errors). The error gets even bigger from -1 to -0.9 and 0.9 to 1.
