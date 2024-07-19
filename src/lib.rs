@@ -78,6 +78,10 @@ impl DTrig {
     /// - Most accurate between 0 and 2 PI with a factor of 1000 as denominator.
     /// - See README for limitations on accuracy.
     ///
+    /// # Panics
+    /// 
+    /// - A zero as the input for the denominator.
+    ///
     /// # Example
     ///
     /// ```
@@ -113,6 +117,10 @@ impl DTrig {
     /// - The output tuple represents the cosine result as a numerator and denominator.
     /// - Most accurate between 0 and 2 PI with a factor of 1000 as denominator.
     /// - See README for limitations on accuracy.
+    /// 
+    /// # Panics
+    /// 
+    /// - A zero as the input for the denominator.
     ///
     /// # Example
     ///
@@ -152,7 +160,11 @@ impl DTrig {
     /// - Most accurate between 0 and 2 PI with a factor of 1000 as denominator.
     /// - Can have large errors around asymptote lines for the tangent function.
     /// - See README for limitations on accuracy.
-    ///
+    /// 
+    /// # Panics
+    /// 
+    /// - A zero as the input for the denominator.
+    /// 
     /// # Example
     ///
     /// ```
@@ -186,8 +198,14 @@ impl DTrig {
     /// - The input tuple represents the input value as a numerator and denominator.
     /// - The output tuple represents the angle result in radians as a numerator and denominator.
     /// - Most accurate with a factor of 1000 as denominator.
-    /// - Arcsine inputs below -1 and above 1 return as -1571/1000 (-PI/2) and 1571/1000 (PI/2) when that is really mathematically undefined
     /// - See README for detailed limitations on accuracy.
+    /// 
+    /// # Panics
+    /// 
+    /// - A zero as the input for the denominator.
+    /// - Inputs representing a fractions with a value greater than 1 or less than -1.
+    /// - This is out of the mathematically defined domainor the arcsine function.
+    /// 
     /// # Example
     ///
     /// ```
@@ -206,9 +224,9 @@ impl DTrig {
 
     pub fn arcsine(&self, argument_fraction: (i32, i32)) -> (i32, i32) {
         if utility::denominator_to_1000(argument_fraction) < -1000 {
-            return (-1571, 1000);
+            panic!("Arcsine input less than 1.");
         } else if utility::denominator_to_1000(argument_fraction) > 1000 {
-            return (1571, 1000);
+            panic!("Arcsine input greater than 1.");
         } else {
             return (
                 i32::from(
@@ -225,8 +243,14 @@ impl DTrig {
     /// - The input tuple represents the input value as a numerator and denominator.
     /// - The output tuple represents the angle result in radians as a numerator and denominator.
     /// - Most accurate with a factor of 1000 as denominator.
-    /// - Arccosine inputs below -1 and above 1 return as 3142/1000 (PI) and 0/1000 (0) when that is really mathematically undefined
     /// - See README for detailed limitations on accuracy.
+    ///
+    /// # Panics
+    /// 
+    /// - A zero as the input for the denominator.
+    /// - Inputs representing a fractions with a value greater than 1 or less than -1.
+    /// - This is out of the mathematically defined domain for the arccosine function.
+    /// 
     /// # Example
     ///
     /// ```
@@ -245,9 +269,9 @@ impl DTrig {
 
     pub fn arccosine(&self, argument_fraction: (i32, i32)) -> (i32, i32) {
         if utility::denominator_to_1000(argument_fraction) < -1000 {
-            return (3142, 1000);
+            panic!("Arccosine input less than 1, which is undefined.");
         } else if utility::denominator_to_1000(argument_fraction) > 1000 {
-            return (0, 1000);
+            panic!("Arccosine input greater than 1, which is undefined.");
         } else {
             return (
                 i32::from(
@@ -265,6 +289,11 @@ impl DTrig {
     /// - The output tuple represents the angle result in radians as a numerator and denominator.
     /// - Most accurate with a factor of 1000 as denominator.
     /// - See README for detailed limitations on accuracy.
+    ///
+    /// # Panics
+    /// 
+    /// - A zero as the input for the denominator.
+    /// 
     /// # Example
     ///
     /// ```
@@ -276,7 +305,7 @@ impl DTrig {
     ///
     /// let arctangent_of_one_half = d_trig.arctangent((500,1000));
     ///
-    /// println!("The arctangent of 500/1000 radians is {}/{}.", arccosine_of_one_half.0, arccosine_of_one_half.1);
+    /// println!("The arctangent of 500/1000 radians is {}/{}.", arctangent_of_one_half.0, arctangent_of_one_half.1);
     ///
     /// }
     ///

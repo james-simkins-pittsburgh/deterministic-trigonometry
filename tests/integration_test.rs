@@ -38,18 +38,6 @@ fn main() {
     _not_read = d_trig.arccosine((i32::MIN, 1));
     _not_read = d_trig.arctangent((i32::MAX, 1));
     _not_read = d_trig.arctangent((i32::MIN, 1));
-    _not_read = d_trig.sine((5, 0));
-    _not_read = d_trig.sine((0, 0));
-    _not_read = d_trig.cosine((5, 0));
-    _not_read = d_trig.cosine((0, 0));
-    _not_read = d_trig.tangent((5, 0));
-    _not_read = d_trig.tangent((0, 0));
-    _not_read = d_trig.arcsine((5, 0));
-    _not_read = d_trig.arcsine((0, 0));
-    _not_read = d_trig.arccosine((5, 0));
-    _not_read = d_trig.arccosine((0, 0));
-    _not_read = d_trig.arctangent((5, 0));
-    _not_read = d_trig.arctangent((0, 0));
 }
 
 fn test_all_functions(numerator: i32, denominator: i32, d_trig: &DTrig) {
