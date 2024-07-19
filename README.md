@@ -26,6 +26,25 @@ println!("The arctangent of 500/1000 radians is {}/{}.", arctangent_of_one_half.
 
 For a more complex example, see the examples folder in the source code.
 
+## List of Functions
+
+The library has an initialize() function that must be run when the DTrig struct is instantiated
+and the six trignometry and inverse trigonmetry functions:
+
+```rust
+
+let d_trig = DTrig::initialize();
+
+sine_of_one_half = d.trig.sine((500,1000));
+cosine_of_one_half = d.trig.cosine((500,1000));
+tangent_of_one_half = d.trig.tangent((500,1000));
+arcsine_of_one_half = d.trig.arcsine((500,1000));
+arccosine_of_one_half = d.trig.arccosine((500,1000));
+arctangent_of_one_half = d.trig.arctangent((500,1000));
+
+```
+
+
 ## Things that Cause the Library to Panic
 
  - Denominator inputs of 0 panic as division by 0 is undefined.
