@@ -1,6 +1,8 @@
 use std::io;
 use deterministic_trigonometry::DTrig;
 
+/* This is a basic command line trigonometry function calculator. It is designed as an example to show how to use the
+deterministic-trigonometry crate. */
 fn main() {
     // This initializes the DTrig struct which writes the pre-baked trig tables into memory.
     let d_trig = DTrig::initialize();
@@ -13,7 +15,7 @@ fn main() {
         println!("Welcome to the trigonometry calculator!");
         println!("");
 
-        // This takes a code for the trig function and the input value from the user.
+        // This helper function takes a code for the trig function and the input value from the user.
         let input_tuple = take_user_input();
 
         // Just for visual spacing.
@@ -58,7 +60,7 @@ fn main() {
     }
 }
 
-// This is the code to take user input for the calculator.
+// This is the helper function to take user input for the calculator.
 
 fn take_user_input() -> (i32, f32) {
     // This holds the trig function code.
