@@ -8,6 +8,12 @@ Trigonometry is accomplished by using pre-baked tables of trigonometry results t
 
 Provide input as a (i32, i32) tuple corresponding to the numerator and denominator of the input represented as a fraction. All angle measurements are in radians. Output is returned as a tuple (i32,i32) representing a fractional output. The output denominator is always 1000 to allow easy conversion to fixed point decimals.
 
+## Adding it to Your Rust Project
+
+```
+cargo add deterministic-trigonometry
+```
+
 ## Basic Example
 
 ```rust
