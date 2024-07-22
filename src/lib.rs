@@ -49,9 +49,9 @@
 /// }
 /// ```
 
-// Array sizes are set to balance accuracy with memory usage.
-
 pub struct DTrig {
+    
+    // Array sizes are set to balance accuracy with memory usage.
     sine_array: [i16; 6283],
     cosine_array: [i16; 6283],
     tangent_array: [i32; 6283],
