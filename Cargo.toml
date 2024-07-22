@@ -1,6 +1,6 @@
 [package]
 name = "deterministic-trigonometry"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 description = "Trigonometry without floating point variables to achieve deterministic results across hardware and compilers"
 license = "MIT OR Apache-2.0"
